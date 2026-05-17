@@ -26,7 +26,7 @@ export function Services() {
             </motion.span>
             <RevealText
               as="h2"
-              className="font-display text-display-lg font-semibold tracking-tight text-balance"
+              className="font-display text-display-lg font-semibold tracking-normal text-balance"
             >
               The work behind real adoption.
             </RevealText>
@@ -61,7 +61,7 @@ export function Services() {
                 <ArrowUpRight className="h-5 w-5 -translate-y-1 translate-x-1 text-zinc-500 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-accent group-hover:opacity-100" />
               </div>
 
-              <h3 className="mb-4 font-display text-3xl font-semibold tracking-tight text-white md:text-4xl">
+              <h3 className="mb-4 font-display text-3xl font-semibold tracking-normal text-white md:text-4xl">
                 {service.title}
               </h3>
               <p className="mb-8 max-w-sm text-zinc-400">{service.description}</p>

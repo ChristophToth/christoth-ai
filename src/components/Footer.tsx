@@ -5,9 +5,8 @@ import { ArrowUpRight } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
 const SOCIALS = [
-  { label: "Email", href: "mailto:chris@christoth.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/christoth/" },
-  { label: "Resume", href: "/resume.pdf" },
+  { label: "Site", href: "https://christoth.work" },
 ];
 
 export function Footer() {
@@ -19,7 +18,7 @@ export function Footer() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60rem] bg-[radial-gradient(60rem_30rem_at_50%_0%,rgba(124,92,255,0.18),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60rem] bg-[linear-gradient(to_bottom,rgba(124,92,255,0.14),transparent_55%)]"
       />
 
       <div className="container-page relative">
@@ -39,7 +38,7 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-display-xl font-semibold tracking-tight text-balance"
+            className="font-display text-display-xl font-semibold tracking-normal text-balance"
           >
             Adopting AI at scale?{" "}
             <span className="gradient-text">Let&apos;s talk.</span>
@@ -53,8 +52,8 @@ export function Footer() {
             className="mx-auto mt-6 max-w-xl text-pretty text-zinc-400 md:text-lg"
           >
             Whether you&apos;re scoping a rollout, designing an enablement
-            program, or hiring for a senior AI-adoption role — send a note and
-            I&apos;ll reply within one business day.
+            program, or hiring for a senior AI-adoption role, LinkedIn is the
+            best place to start the conversation.
           </motion.p>
 
           <motion.div
@@ -64,15 +63,12 @@ export function Footer() {
             transition={{ delay: 0.25, duration: 0.7 }}
             className="mt-10 flex flex-wrap items-center justify-center gap-4"
           >
-            <MagneticButton href="mailto:chris@christoth.com" variant="primary">
-              chris@christoth.com
-              <ArrowUpRight className="h-4 w-4" />
-            </MagneticButton>
             <MagneticButton
               href="https://www.linkedin.com/in/christoth/"
-              variant="ghost"
+              variant="primary"
             >
               Connect on LinkedIn
+              <ArrowUpRight className="h-4 w-4" />
             </MagneticButton>
           </motion.div>
         </div>
@@ -109,7 +105,7 @@ export function Footer() {
 
         <div
           aria-hidden
-          className="select-none pb-10 pt-20 text-center font-display text-[clamp(4rem,18vw,18rem)] font-semibold leading-none tracking-tighter"
+          className="select-none pb-10 pt-20 text-center font-display text-7xl font-semibold leading-none tracking-normal md:text-[10rem] lg:text-[14rem]"
         >
           <span className="bg-gradient-to-b from-white/10 to-white/0 bg-clip-text text-transparent">
             CHRIS&nbsp;TOTH

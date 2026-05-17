@@ -62,7 +62,7 @@ export function ValueProps() {
           </motion.span>
           <RevealText
             as="h2"
-            className="font-display text-display-lg font-semibold tracking-tight text-balance"
+            className="font-display text-display-lg font-semibold tracking-normal text-balance"
           >
             The human layer is the hard part.
           </RevealText>
@@ -88,7 +88,7 @@ export function ValueProps() {
                 <div className="mb-8 grid h-12 w-12 place-items-center rounded-2xl bg-accent/15 text-accent transition-all duration-500 group-hover:scale-110 group-hover:bg-accent group-hover:text-white">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="mb-3 font-display text-2xl font-semibold tracking-tight text-white">
+                <h3 className="mb-3 font-display text-2xl font-semibold tracking-normal text-white">
                   {v.title}
                 </h3>
                 <p className="text-pretty text-zinc-400">{v.description}</p>

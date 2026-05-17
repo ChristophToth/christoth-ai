@@ -26,9 +26,9 @@ export default {
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        "display-2xl": ["clamp(3.5rem, 9vw, 9rem)", { lineHeight: "0.95", letterSpacing: "-0.04em" }],
-        "display-xl": ["clamp(2.75rem, 7vw, 6.5rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
-        "display-lg": ["clamp(2rem, 5vw, 4.25rem)", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
+        "display-2xl": ["4.75rem", { lineHeight: "0.98", letterSpacing: "0" }],
+        "display-xl": ["4rem", { lineHeight: "1", letterSpacing: "0" }],
+        "display-lg": ["3rem", { lineHeight: "1.05", letterSpacing: "0" }],
       },
       animation: {
         "marquee": "marquee 30s linear infinite",

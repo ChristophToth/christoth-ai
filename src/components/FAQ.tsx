@@ -26,7 +26,7 @@ export function FAQ() {
             </motion.span>
             <RevealText
               as="h2"
-              className="font-display text-display-lg font-semibold tracking-tight text-balance"
+              className="font-display text-display-lg font-semibold tracking-normal text-balance"
             >
               Questions, answered.
             </RevealText>

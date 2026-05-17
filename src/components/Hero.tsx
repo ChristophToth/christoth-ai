@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-32"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-16 pt-36 md:pb-24 md:pt-40"
       aria-label="Hero"
     >
       <div className="pointer-events-none absolute inset-0 bg-radial-glow" />
@@ -39,7 +39,7 @@ export function Hero() {
           Currently driving AI adoption at AT&amp;T
         </motion.div>
 
-        <h1 className="font-display text-display-2xl font-semibold tracking-tight text-balance">
+        <h1 className="font-display max-w-6xl text-[3rem] font-semibold leading-[1.08] tracking-normal text-balance sm:text-[3.75rem] md:text-[4.75rem] lg:text-[5.35rem] xl:text-[6rem]">
           <RevealLine delay={0.05}>AI adoption</RevealLine>
           <RevealLine delay={0.18}>
             is behavior{" "}
@@ -49,7 +49,7 @@ export function Hero() {
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left bg-gradient-to-r from-accent to-accent-electric"
+                className="absolute -bottom-[0.16em] left-0 right-0 h-[3px] origin-left bg-gradient-to-r from-accent to-accent-electric"
               />
             </span>
             .
@@ -61,7 +61,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
-          className="mt-8 max-w-xl text-pretty text-lg text-zinc-400 md:text-xl"
+          className="mt-7 max-w-2xl text-pretty text-base leading-7 text-zinc-400 md:mt-8 md:text-lg md:leading-8"
         >
           I&apos;m Chris Toth — 14 years across market research, consumer insights, and
           marketing, now focused on AI adoption inside AT&amp;T. I translate
@@ -73,7 +73,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.8 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="mt-9 flex flex-wrap items-center gap-4"
         >
           <MagneticButton href="#work" variant="primary">
             See the work
@@ -88,7 +88,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.95, duration: 0.8 }}
-          className="mt-12 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/5 bg-white/5 sm:grid-cols-4"
+          className="mt-10 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/5 bg-white/5 sm:grid-cols-4"
         >
           {[
             ["14yr", "Research & insights"],
@@ -100,7 +100,7 @@ export function Hero() {
               <dt className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-zinc-500">
                 {label}
               </dt>
-              <dd className="mt-1 font-display text-2xl font-semibold tracking-tight text-white">
+              <dd className="mt-1 font-display text-2xl font-semibold tracking-normal text-white">
                 {value}
               </dd>
             </div>
@@ -134,7 +134,7 @@ function RevealLine({
   delay?: number;
 }) {
   return (
-    <span className="block overflow-hidden">
+    <span className="block overflow-hidden pb-[0.08em]">
       <motion.span
         initial={{ y: "110%" }}
         animate={{ y: "0%" }}

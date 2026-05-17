@@ -108,7 +108,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-400">
                 {project.client} · {project.year}
               </div>
-              <h3 className="mt-2 font-display text-2xl font-semibold tracking-tight text-white md:text-3xl">
+              <h3 className="mt-2 font-display text-2xl font-semibold tracking-normal text-white md:text-3xl">
                 {project.title}
               </h3>
             </div>
@@ -119,6 +119,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               </span>
             )}
           </div>
+        </div>
+        <div className="border-t border-white/5 bg-ink-900/80 p-6">
+          <p className="max-w-2xl text-pretty text-base leading-7 text-zinc-300">
+            {project.summary}
+          </p>
+          <div className="mt-6 font-mono text-[0.65rem] uppercase tracking-[0.24em] text-zinc-500">
+            Adoption signal
+          </div>
+          <p className="mt-2 text-pretty text-sm leading-6 text-zinc-400">
+            {project.signal}
+          </p>
         </div>
       </a>
     </motion.article>

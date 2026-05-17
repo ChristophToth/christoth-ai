@@ -25,7 +25,7 @@ export function Expertise() {
             </motion.span>
             <RevealText
               as="h2"
-              className="font-display text-display-lg font-semibold tracking-tight text-balance"
+              className="font-display text-display-lg font-semibold tracking-normal text-balance"
             >
               The stack behind the work.
             </RevealText>
@@ -53,7 +53,7 @@ export function Expertise() {
                   <dt className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500">
                     {stat.label}
                   </dt>
-                  <dd className="mt-1 font-display text-4xl font-semibold tracking-tight text-white md:text-5xl">
+                  <dd className="mt-1 font-display text-4xl font-semibold tracking-normal text-white md:text-5xl">
                     {stat.value}
                   </dd>
                 </motion.div>

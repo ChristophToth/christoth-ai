@@ -36,7 +36,7 @@ export function BrandTimeline() {
           </motion.span>
           <RevealText
             as="h2"
-            className="font-display text-display-lg font-semibold tracking-tight text-balance"
+            className="font-display text-display-lg font-semibold tracking-normal text-balance"
           >
             Fourteen years studying behavior across categories.
           </RevealText>
@@ -126,7 +126,7 @@ function BrandCard({
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
             </span>
           )}
-          <h3 className="truncate font-display text-lg font-semibold uppercase tracking-tight text-white md:text-xl">
+          <h3 className="truncate font-display text-lg font-semibold uppercase tracking-normal text-white md:text-xl">
             {brand.name}
           </h3>
         </div>

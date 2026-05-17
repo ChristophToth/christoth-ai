@@ -27,10 +27,20 @@ export function Projects() {
             </motion.span>
             <RevealText
               as="h2"
-              className="font-display text-display-lg font-semibold tracking-tight text-balance"
+              className="font-display text-display-lg font-semibold tracking-normal text-balance"
             >
               Where the thesis becomes practice.
             </RevealText>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.12, duration: 0.6 }}
+              className="mt-6 max-w-2xl text-pretty text-zinc-400"
+            >
+              These are public, privacy-safe themes from the work, framed around
+              operating patterns instead of proprietary company data.
+            </motion.p>
           </div>
           <motion.a
             initial={{ opacity: 0, y: 12 }}

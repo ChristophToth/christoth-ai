@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { label: "Thesis", href: "#thesis" },
+  { label: "Model", href: "#model" },
   { label: "Work", href: "#work" },
   { label: "Expertise", href: "#expertise" },
-  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -51,10 +51,10 @@ export function Navigation() {
         >
           <a
             href="#"
-            className="group flex items-center gap-2 font-display text-lg font-semibold tracking-tight"
+            className="group flex items-center gap-2 font-display text-lg font-semibold tracking-normal"
           >
             <span className="relative grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-electric text-white shadow-[0_0_24px_rgba(124,92,255,0.45)] transition-transform duration-500 group-hover:rotate-[20deg]">
-              <span className="text-[0.7rem] font-bold tracking-tight">CT</span>
+              <span className="text-[0.7rem] font-bold tracking-normal">CT</span>
             </span>
             <span className="hidden sm:block">Chris Toth</span>
           </a>
@@ -123,7 +123,7 @@ export function Navigation() {
                   exit={{ y: 30, opacity: 0 }}
                   transition={{ delay: 0.05 * i, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => setOpen(false)}
-                  className="font-display text-5xl font-semibold tracking-tight text-white transition-colors hover:text-accent"
+                  className="font-display text-5xl font-semibold tracking-normal text-white transition-colors hover:text-accent"
                 >
                   {link.label}.
                 </motion.a>

@@ -1,5 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { AdoptionThesis } from "@/components/AdoptionThesis";
+import { OperatingModel } from "@/components/OperatingModel";
 import { Services } from "@/components/Services";
 import { ValueProps } from "@/components/ValueProps";
 import { Projects } from "@/components/Projects";
@@ -13,6 +14,7 @@ export default function HomePage() {
     <>
       <Hero />
       <AdoptionThesis />
+      <OperatingModel />
       <Services />
       <ValueProps />
       <Projects />

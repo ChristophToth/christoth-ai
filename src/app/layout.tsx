@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Navigation } from "@/components/Navigation";
+import { FAQ_ITEMS } from "@/data/faq";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -23,7 +24,10 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://christoth.com"),
+  metadataBase: new URL("https://christoth.work"),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: "Chris Toth — AI Adoption & Workforce Transformation",
     template: "%s · Chris Toth",
@@ -44,14 +48,24 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
+    url: "https://christoth.work",
     title: "Chris Toth — AI Adoption & Workforce Transformation",
     description:
       "AI adoption is a behavior-change problem. Bridging 14 years of research and insights into enterprise AI rollouts that stick.",
     siteName: "Chris Toth",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Chris Toth — AI Adoption & Workforce Transformation",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Chris Toth — AI Adoption & Workforce Transformation",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -80,6 +94,46 @@ export default function RootLayout({
           Skip to content
         </a>
         <Navigation />
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Chris Toth",
+              url: "https://christoth.work",
+              jobTitle: "AI Adoption & Workforce Transformation Leader",
+              sameAs: ["https://www.linkedin.com/in/christoth/"],
+              knowsAbout: [
+                "AI adoption",
+                "Workforce transformation",
+                "Consumer insights",
+                "Market research",
+                "Knowledge management",
+                "Change management",
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: FAQ_ITEMS.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+        />
         <main id="main" className="relative z-10">
           {children}
         </main>
