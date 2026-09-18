@@ -1,0 +1,48 @@
+.belly-buddy {
+  --bb-ink: #1f3328;
+  --bb-mute: #5a6f62;
+  --bb-cream: #f3f7f1;
+  --bb-mint: #d7ebe0;
+  --bb-sky: #d9e8f2;
+  --bb-leaf: #3d6e54;
+  --bb-leaf-soft: #6f9a7f;
+  --bb-honey: #e4b86a;
+  --bb-coral: #c46b5c;
+  --bb-line: rgba(61, 110, 84, 0.16);
+  color: var(--bb-ink);
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(217, 232, 242, 0.9), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 90% 0%, rgba(228, 184, 106, 0.28), transparent 50%),
+    linear-gradient(180deg, #e7f2ec 0%, #f7faf6 42%, #eef5f8 100%);
+  font-family: var(--font-bb-sans), "Nunito", system-ui, sans-serif;
+}
+
+.belly-buddy .font-bb-display {
+  font-family: var(--font-bb-display), "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+.bb-float {
+  animation: bb-float 7s ease-in-out infinite;
+}
+
+@keyframes bb-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media print {
+  .belly-buddy {
+    background: white;
+  }
+
+  .bb-nav,
+  .print\:hidden {
+    display: none !important;
+  }
+}
