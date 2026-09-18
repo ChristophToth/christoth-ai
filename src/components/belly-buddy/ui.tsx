@@ -135,20 +135,26 @@ export function WeekDots({
 }) {
   return (
     <ol className="flex flex-wrap gap-2" aria-label="Seven day progress">
-      {dates.map((date, index) => {
+      {dates.map((date) => {
         const done = completed.has(date);
+        const day = new Date(`${date}T12:00:00`);
+        const label = day.toLocaleDateString(undefined, { weekday: "short" });
+        const isToday = date === dates[dates.length - 1];
         return (
           <li key={date} className="flex flex-col items-center gap-1">
             <span
               className={cn(
-                "grid h-10 w-10 place-items-center rounded-full text-sm font-bold",
+                "grid h-11 w-11 place-items-center rounded-full text-xs font-bold",
                 done
                   ? "bg-[color:var(--bb-leaf)] text-white"
                   : "bg-white/80 text-[color:var(--bb-mute)] ring-1 ring-[color:var(--bb-line)]",
+                isToday && !done
+                  ? "ring-2 ring-[color:var(--bb-honey)]"
+                  : null,
               )}
-              aria-label={`Day ${index + 1}${done ? ", logged" : ", not logged yet"}`}
+              aria-label={`${label}${isToday ? ", today" : ""}${done ? ", logged" : ", not logged yet"}`}
             >
-              {index + 1}
+              {label}
             </span>
           </li>
         );
