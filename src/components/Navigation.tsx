@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -13,10 +14,15 @@ const NAV_LINKS = [
 ];
 
 export function Navigation() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
   const blur = useTransform(scrollY, [0, 80], [0, 14]);
+
+  if (pathname?.startsWith("/belly-buddy")) {
+    return null;
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
