@@ -1,0 +1,22 @@
+{
+  "name": "woke-gpt",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local open-source model harness with estimated energy, electricity cost, and CO2e.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "dev": "node --experimental-strip-types src/server.ts",
+    "start": "node --experimental-strip-types src/server.ts",
+    "test": "node --experimental-strip-types --test src/*.test.ts",
+    "smoke": "node --experimental-strip-types scripts/smoke.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.2"
+  }
+}
