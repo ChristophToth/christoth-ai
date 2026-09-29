@@ -4,20 +4,23 @@
 **status:** estimates, not meters  
 **audience:** staff engineers shipping the harness + usage visuals  
 **product framing:** sell = local OSS harness + honest energy/cost visuals + tips; optional API-key connectors later
-**repo path:** `apps/woke-gpt/METHODOLOGY.md`
+**intended repo path:** `apps/woke-gpt/METHODOLOGY.md` — re-diff vs Staff Eng PR when opened
 
 This document defines how Woke GPT turns **token counts + hardware profile + grid region** into **estimated Wh, $, and gCO2e**. Every number is an **estimate with disclosed assumptions**. We never invent meter-like precision.
 
-**Harness wiring (paths in this app):**
+---
 
-| Piece | Path |
-|-------|------|
-| Local formulas | `src/estimate-local.ts` |
-| API-key connector stub (no live keys) | `src/estimate-api.ts`, `src/connectors.ts` |
-| Connector contract | `API_KEY_ESTIMATES_SPEC.md` |
-| Panel strings and tips | `UI_COPY.md`, `src/copy.ts` |
-| eGRID2023 subregion table | `src/grids.ts` |
-| Usage UI | `public/index.html` (links here as `/methodology`) |
+## v0 product locks (Casey CoS, 2026-09-28)
+
+These are the authoritative v0 product decisions; this pack folds policy into the existing formulas and sources without adding new science.
+
+1. **Local Wh/token:** Ship TBD local Wh/token profiles plus clearly labeled **EXAMPLE** ranges. The measurement pass is **v0.1**, after the draft UI exists.
+2. **Electricity price:** Default `$ / kWh` to the EIA US residential context of **~17–18¢/kWh**, with a loud **“Edit for your rate”** label. A user-entered rate takes precedence.
+3. **Grid vintage:** Pin **eGRID2023**. When EPA publishes a newer dataset, swap the intensity table, bump `methodology_version`, and add a changelog note describing the swap.
+4. **Grid timing:** v0 uses annual factors only; there is **no live Electricity Maps API** in v0.
+5. **Idle:** Idle/residency energy is **off by default** and can be opt-in later.
+6. **Cloud energy:** Cloud `Wh` is `null` in v0. An EcoLogits range may appear only behind an explicit enable flag, and only if easy, with third-party-model labeling.
+7. **Repo path:** Prefer `apps/woke-gpt/METHODOLOGY.md` at the repo root; re-diff against the Staff Eng PR when it opens.
 
 ---
 
@@ -58,7 +61,7 @@ Cost_$ ≈ Energy_Wh × (grid_kWh_price_USD / 1000)
 | `grid_kWh_price_USD` | User-entered rate, or regional default from EIA / utility | **Assumption** if defaulted |
 
 **EXAMPLE default (US residential, not a meter):**  
-US residential averages have been on the order of **~17–18 ¢/kWh** in recent EIA Electric Power Monthly tables ([EIA Electric Power Monthly Table 5.3](https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3); [EIA prices explained](https://www.eia.gov/energyexplained/electricity/prices-and-factors-affecting-prices.php)). Prefer **user-entered $/kWh**. Mark any default as `price_source: default_eia_us_residential` and show `~`.
+The v0 default is the EIA US residential context of **~17–18 ¢/kWh** from recent EIA Electric Power Monthly tables ([EIA Electric Power Monthly Table 5.3](https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3); [EIA prices explained](https://www.eia.gov/energyexplained/electricity/prices-and-factors-affecting-prices.php)). Mark it as `price_source: default_eia_us_residential`, show `~`, and display a loud **“Edit for your rate”** label. A user-entered `$ / kWh` takes precedence.
 
 **Cloud / API dollar cost (separate ledger — do not mix into Wh×price without labeling):**
 
@@ -123,7 +126,7 @@ Wh_per_token ≈ (250 / 50) / 3600 ≈ 0.0014 Wh/token
 ### B.3 Idle vs active caveats (must disclose in UI)
 
 - Keeping a large model **resident in VRAM/RAM** draws power even with zero queries. Luccioni et al. (BLOOM API deployment) observed a large share of instance energy with near-zero requests ([JMLR BLOOM carbon footprint](https://www.jmlr.org/papers/volume24/23-0069/23-0069.pdf); related arXiv [2211.02001](https://arxiv.org/abs/2211.02001)).
-- Session estimates that only multiply tokens × Wh/token **under-count** always-on residency. Optional UI: show “generation estimate” vs “session including idle.”
+- Session estimates that only multiply tokens × Wh/token **under-count** always-on residency. In v0, idle is excluded from session totals by default; an “include idle/residency” control can be opt-in later.
 - CodeCarbon documents machine vs process attribution and RAPL/`powermetrics`/`nvidia-ml` paths ([CodeCarbon methodology](https://docs.codecarbon.io/latest/explanation/methodology/)).
 
 ### B.4 Literature anchors (cite; do not over-fit)
@@ -166,7 +169,7 @@ intensity_gCO2e_per_kWh = (lb_CO2e_per_MWh) × (453.59237 g/lb) / 1000
 → `770.9 × 0.45359237 ≈ 350 gCO2e/kWh` (round to **~350**; do not fake 349.623…).  
 Subregions span a wide range (e.g. NYUP ~243 lb/MWh CO2e vs coal-heavy subregions >1,000 lb/MWh) — always prefer **subregion** over US average when known. Source: EPA summary tables linked above.
 
-**Note on vintage:** As of pack date (2026-09-28), official EPA portal lists **eGRID with 2023 data** (released 2025; rev2 Jun 2025). eGRID2024 may appear later — pin `egrid_year` in methodology metadata and bump `methodology_version` when swapping datasets.
+**v0 vintage lock:** Pin **eGRID2023** (`egrid_year: 2023`). As of pack date (2026-09-28), the official EPA portal lists eGRID with 2023 data (released 2025; rev2 Jun 2025). **Swap process:** when EPA publishes a newer dataset, update the intensity table and its `egrid_year`, bump `methodology_version`, and record the change in this changelog.
 
 ### C.2 Broader / realtime regional — Electricity Maps–class
 
@@ -183,16 +186,16 @@ Subregions span a wide range (e.g. NYUP ~243 lb/MWh CO2e vs coal-heavy subregion
 
 Electricity Maps notes US regional factors can incorporate **EPA eGRID** plant-level data (see their methodology page) — complementary, not contradictory, to §C.1 annual factors.
 
-**v0 policy:** Annual eGRID subregion is fine for US defaults without an API key. Optional later: live Electricity Maps (or equivalent) with user consent / API key.
+**v0 policy:** Use annual factors only, with eGRID2023 pinned for US defaults; there is **no live Electricity Maps API in v0**. A live Electricity Maps (or equivalent) integration is later work, not a v0 dependency.
 
 ### C.3 How the UI picks region
 
 Priority order (disclose which path was used):
 
-1. **Manual** — user picks eGRID subregion or Electricity Maps zone  
+1. **Manual** — user picks an eGRID subregion (v0); live Electricity Maps zones are not used in v0  
 2. **ZIP / Power Profiler** — map US ZIP → eGRID subregion via EPA Power Profiler guidance  
 3. **Locale heuristic** — country/region from OS locale → national or default zone (**lower confidence**; label `region_source: locale_guess`)  
-4. **Fallback** — US → eGRID US average; non-US → Electricity Maps country zone or CodeCarbon/Our World in Data national average ([CodeCarbon methodology](https://docs.codecarbon.io/latest/explanation/methodology/) cites OWID / world default **475 gCO2eq/kWh** when unknown)
+4. **Fallback** — US → eGRID US average; non-US → an annual country/national factor from the documented fallback source (not a live API) or unknown when unavailable ([CodeCarbon methodology](https://docs.codecarbon.io/latest/explanation/methodology/) cites OWID / world default **475 gCO2eq/kWh** when unknown)
 
 Never silently assume “green power” or RECs unless the user explicitly opts into a documented market-based method (out of scope for v0 location-based estimates).
 
@@ -213,15 +216,15 @@ Compare **the same workload** (same prompt+completion token counts).
 
 | Side | Energy | Intensity | Cost |
 |------|--------|-----------|------|
-| **Local** | `tokens × Wh_per_token(user_hardware_profile)` (+ optional idle) | User region (eGRID / Electricity Maps) | Local $/kWh |
-| **Cloud** | Provider-published energy/token **if available**; else **EcoLogits-class model** or **null** | Provider DC region intensity if known; else regional fallback; else **range + “provider intensity unknown”** | API $/1M tokens (separate from electricity) |
+| **Local** | `tokens × Wh_per_token(user_hardware_profile)` (+ optional idle, opt-in later) | User region (annual eGRID factors in v0) | Local $/kWh |
+| **Cloud** | **`null` in v0**; an EcoLogits-class range only behind an explicit enable flag if easy and clearly labeled | Annual factor if known; otherwise **range + “provider intensity unknown”** | API $/1M tokens (separate from electricity) |
 
 ### D.1 Rules of honesty
 
 - **Never claim “local is always greener.”** Local on a high-TDP GPU in a coal-heavy eGRID subregion can exceed cloud inference on efficient accelerators in a cleaner grid (especially when cloud batches many users). Show both estimates side by side.
-- If cloud Wh is unknown: output `estimated_Wh: null`, `reason: "provider_energy_unknown"`, and optionally an **EcoLogits-style range** clearly labeled as third-party model, not provider meter ([EcoLogits LLM inference](https://ecologits.ai/latest/methodology/llm_inference/)).
+- In v0, if cloud Wh is unknown, output `estimated_Wh: null`, `reason: "provider_energy_unknown"`. An **EcoLogits-style range** is allowed only behind an explicit enable flag, only if easy, and must be clearly labeled as a third-party model, not provider telemetry ([EcoLogits LLM inference](https://ecologits.ai/latest/methodology/llm_inference/)).
 - Cloud comparisons should note **PUE** and possible **embodied** impacts if using EcoLogits; v0 usage panel may show **operational energy only** and link here for scope.
-- Idle residency on local machines can flip the comparison for “always-on” local servers — disclose.
+- Idle residency on local machines can flip the comparison for “always-on” local servers — disclose; v0 excludes idle from totals by default and requires opt-in to include it.
 
 ### D.2 When local might *not* be greener (UI education, not scare copy)
 
@@ -264,5 +267,5 @@ When local *might* be better: small quantized models, high tok/s per watt, clean
 
 | Version | Date (PT) | Notes |
 |---------|-----------|-------|
-| `2026-09-28.v0` | 2026-09-28 | Initial pack for Woke GPT |
+| `2026-09-28.v0` | 2026-09-28 | Initial pack for Woke GPT; Casey CoS locks folded |
 

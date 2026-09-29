@@ -77,17 +77,21 @@ describe("local estimate", () => {
     assert.notEqual(findHardware("discrete_gpu_consumer")?.powerBand?.lowW, 250);
   });
 
-  it("labels rough character counts and keeps idle out of the generation figure", () => {
+  it("does not count idle as generation energy in v0", () => {
     assert.equal(roughTokenCount("abcd"), 1);
-    assert.equal(roughTokenCount("abcdefgh"), 2);
     const estimate = estimateLocal({
       ...base,
       includeIdle: true,
       idlePowerW: 10,
       idleMinutes: 60,
     });
-    assert.equal(estimate.idleWh, 10);
+    assert.equal(estimate.idleWh, null);
+    assert.equal(estimate.sessionEnergyWh, null);
+    assert.equal(estimate.assumptions.includesIdle, false);
+    assert.equal(estimate.assumptions.idlePolicy, "excluded_v0");
     assert.deepEqual(estimate.energyWh, { low: 1.5, high: 4.5 });
-    assert.deepEqual(estimate.sessionEnergyWh, { low: 11.5, high: 14.5 });
+    assert.equal(estimate.assumptions.egridYear, 2023);
+    assert.equal(estimate.assumptions.intensityCadence, "annual");
+    assert.equal(estimate.assumptions.priceEditLabel, "Default ~17–18¢/kWh — edit for your rate");
   });
 });

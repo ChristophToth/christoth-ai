@@ -47,6 +47,8 @@ describe("disclosure copy", () => {
       COPY.hardwareHelp,
       COPY.regionHelp,
       COPY.priceHelp,
+      COPY.defaultRateLabel,
+      COPY.idleSetting,
       ...COPY.tips.map((tip) => tip.title),
     ];
     for (const snippet of required) {
@@ -56,5 +58,21 @@ describe("disclosure copy", () => {
     for (const phrase of BANNED_PHRASES) {
       assert.equal(lowered.includes(phrase), false, phrase);
     }
+    assert.equal(html.includes('id="idle"'), false);
+  });
+
+  it("ships the locked methodology at apps/woke-gpt/METHODOLOGY.md", async () => {
+    const methodology = await readFile(new URL("../METHODOLOGY.md", import.meta.url), "utf8");
+    assert.match(methodology, /methodology_version:\*\* `2026-09-28\.v0`/);
+    assert.match(methodology, /## v0 product locks \(Casey CoS, 2026-09-28\)/);
+    assert.match(methodology, /Casey CoS locks folded/);
+    assert.match(methodology, /apps\/woke-gpt\/METHODOLOGY\.md/);
+    assert.match(methodology, /~17–18 ¢\/kWh/);
+    assert.match(methodology, /Pin \*\*eGRID2023\*\*/);
+    assert.match(methodology, /no live Electricity Maps API in v0/);
+    assert.match(methodology, /Idle\/residency energy is \*\*off by default\*\*/);
+    assert.match(methodology, /Cloud `Wh` is `null` in v0/);
+    assert.equal(methodology.includes("Optional later: live Electricity Maps"), false);
+    assert.equal(methodology.includes("session including idle"), false);
   });
 });

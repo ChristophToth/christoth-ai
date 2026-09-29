@@ -2,7 +2,7 @@
 
 **methodology_version:** `2026-09-28.v0`  
 **tone:** CEO-plain, short, practical — no preachy greenwashing  
-**pairs with:** `apps/woke-gpt/METHODOLOGY.md`
+**pairs with:** `METHODOLOGY.md` (repo root or `docs/`)
 
 Strings below are paste-ready. Placeholders use `{curly}` braces.
 
@@ -40,6 +40,7 @@ Strings below are paste-ready. Placeholders use `{curly}` braces.
 | Label | Electricity cost estimate |
 | Value | `~${cost_usd}` |
 | Subtext | At {price_cents}/kWh ({price_source_label}) |
+| Default-rate label | **Default ~17–18¢/kWh — edit for your rate** |
 | Missing price | Add your $/kWh for a cost estimate |
 
 ### 2.4 Cost (API — when cloud connector used)
@@ -64,7 +65,7 @@ Strings below are paste-ready. Placeholders use `{curly}` braces.
 | Section | Same workload — local vs cloud |
 | Local line | Local ({hardware_profile_label}, {region_label}): ~{local_wh} Wh · ~{local_gco2e} g CO₂e |
 | Cloud line (known) | Cloud ({provider}/{model}): ~{cloud_wh} Wh · ~{cloud_gco2e} g CO₂e |
-| Cloud line (unknown energy) | Cloud ({provider}/{model}): energy unknown from provider · showing range / model estimate if available |
+| Cloud line (unknown energy) | Cloud ({provider}/{model}): energy unknown from provider · **Wh: null** · optional labeled model range only when explicitly enabled |
 | Cloud intensity unknown | Provider grid intensity unknown — CO₂e shown as a range or omitted |
 | Footer | Local isn’t always lower. Dirty local grid + hungry hardware can beat a clean, efficient cloud run — and the reverse. |
 | CTA | Compare uses the same token counts on both sides. |
@@ -91,8 +92,8 @@ Strings below are paste-ready. Placeholders use `{curly}` braces.
 |-------|------|
 | No tokens yet | Run a prompt to see usage estimates. |
 | Profile TBD | This hardware profile needs a measured Wh/token — showing range only / hidden until calibrated. |
-| Cloud energy null | Provider doesn’t publish energy for this model. We won’t invent a precise Wh. |
-| Offline intensity | Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity. |
+| Cloud energy null | Provider doesn’t publish energy for this model. **Cloud Wh is null in v0**; we won’t invent a precise Wh. An optional range is shown only when explicitly enabled and labeled as a third-party model. |
+| Offline intensity | Using annual grid factors (e.g. pinned EPA eGRID2023). v0 has no live Electricity Maps intensity. |
 | Stale methodology | Estimates use methodology {methodology_version}. |
 
 ---
@@ -130,7 +131,7 @@ Practical tips tied to energy math (smaller model → fewer watts×seconds; fewe
 ## 5. Optional one-liners for settings
 
 > Show energy estimates on every reply  
-> Include idle/residency in session totals (experimental)  
+> Include idle/residency in session totals (off by default; opt in later)  
 > Default grid region: {region}  
 > Electricity rate: {rate} $/kWh  
 

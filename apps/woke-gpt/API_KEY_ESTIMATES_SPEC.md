@@ -3,8 +3,7 @@
 **methodology_version:** `2026-09-28.v0`  
 **purpose:** Contract for *later* optional API-key connector overlays (OpenAI, Anthropic, etc.)  
 **status:** Spec only — not a live billing scraper  
-**pairs with:** `apps/woke-gpt/METHODOLOGY.md` §A–D, `apps/woke-gpt/UI_COPY.md` cloud lines  
-**implemented by:** `src/connectors.ts` and `src/estimate-api.ts` (interfaces and pure estimate only — no network, no key storage)
+**pairs with:** `METHODOLOGY.md` §A–D, `UI_COPY.md` cloud lines
 
 This document defines **inputs and outputs** for estimating energy / $ / gCO2e when the harness routes work through a cloud provider. Implementers map provider responses → this schema. No scraping of billing dashboards without explicit user consent (see Non-goals).
 
@@ -24,7 +23,8 @@ This document defines **inputs and outputs** for estimating energy / $ / gCO2e w
     "completion_usd": null
   },
   "request_id": null,                // optional correlation
-  "locale_grid_hint": null           // optional: eGRID subregion / EM zone if comparing to local
+  "locale_grid_hint": null,          // optional: annual eGRID subregion / grid hint for local compare
+  "enable_third_party_energy_model": false // explicit opt-in; v0 default is false
 }
 ```
 
@@ -37,7 +37,8 @@ This document defines **inputs and outputs** for estimating energy / $ / gCO2e w
 | `region` | no | Improves intensity; if absent → fallback / unknown flags |
 | `user_price_per_1m` | no | User-reported $/1M; wins over list price when set |
 | `request_id` | no | Logging only |
-| `locale_grid_hint` | no | For side-by-side local compare only |
+| `locale_grid_hint` | no | For side-by-side local compare only; use annual factors in v0 |
+| `enable_third_party_energy_model` | no | Explicit opt-in for a labeled EcoLogits-class range; defaults to `false` |
 
 **Token rule:** Same token accounting as the harness uses for local (prompt + completion). Do not invent tokens.
 
@@ -47,7 +48,7 @@ This document defines **inputs and outputs** for estimating energy / $ / gCO2e w
 
 ```jsonc
 {
-  "estimated_Wh": null,              // number | null
+  "estimated_Wh": null,              // v0: null, including when an optional model range is shown
   "estimated_Wh_range": null,        // { "low": number, "high": number } | null
   "estimated_Wh_reason": null,       // string when Wh is null or modeled
   "estimated_usd": null,             // API $ estimate (not electricity)
@@ -68,8 +69,8 @@ This document defines **inputs and outputs** for estimating energy / $ / gCO2e w
 
 | Output | Rule |
 |--------|------|
-| `estimated_Wh` | Set only if provider publishes energy **or** a documented model (e.g. EcoLogits-class) is explicitly enabled and labeled. Else **`null`**. |
-| `estimated_Wh_range` | Prefer ranges when using third-party models; still set `disclosure_flags` accordingly. |
+| `estimated_Wh` | **`null` in the v0 cloud overlay.** Do not populate a single cloud Wh value; the explicit flag controls only an optional range. |
+| `estimated_Wh_range` | **`null` by default in v0.** Set only for an explicitly enabled, clearly labeled third-party model range; still set `disclosure_flags` accordingly. |
 | `estimated_Wh_reason` | Required when `estimated_Wh` is null, e.g. `"provider_energy_unknown"`. |
 | `estimated_usd` | `(prompt_tokens/1e6)*prompt_rate + (completion_tokens/1e6)*completion_rate`. Null if no rates. |
 | `estimated_gCO2e` | `(estimated_Wh/1000) * intensity_g_per_kWh` when both known; else null or range only. |
@@ -94,9 +95,9 @@ This document defines **inputs and outputs** for estimating energy / $ / gCO2e w
 
 | Provider energy data | Intensity | Output |
 |----------------------|-----------|--------|
-| Published Wh or J/token | Known | `estimated_Wh`, `estimated_gCO2e` |
-| Published Wh | Unknown | `estimated_Wh`; `estimated_gCO2e` null + `provider_intensity_unknown` |
-| Unknown | Known or unknown | `estimated_Wh: null`, reason `provider_energy_unknown`; optional **labeled** model range |
+| Published Wh or J/token | Known | Keep `estimated_Wh: null` in v0; provider telemetry is not surfaced as a single cloud Wh value |
+| Published Wh | Unknown | Keep `estimated_Wh: null`; `estimated_gCO2e` null + `provider_intensity_unknown` |
+| Unknown | Known or unknown | `estimated_Wh: null`, reason `provider_energy_unknown`; optional **labeled** model range only when explicit enable flag is true |
 | User disables models | — | Never invent Wh |
 
 ---
@@ -122,6 +123,7 @@ type ApiEstimateInput = {
   completion_tokens: number;
   region?: string | null;
   user_price_per_1m?: { prompt_usd?: number | null; completion_usd?: number | null };
+  enable_third_party_energy_model?: boolean; // defaults to false in v0
 };
 
 type ApiEstimateOutput = {

@@ -17,6 +17,7 @@ export const COPY = {
   electricityLabel: "Electricity cost estimate",
   electricityMissing: "Add your $/kWh for a cost estimate",
   electricitySubtext: "At {price_cents}/kWh ({price_source_label})",
+  defaultRateLabel: "Default ~17–18¢/kWh — edit for your rate",
   apiCostLabel: "API cost estimate",
   apiCostSubtext: "From token usage × $/1M rates — not electricity",
   apiCostNote: "Shown separately from local electricity cost",
@@ -26,7 +27,7 @@ export const COPY = {
   co2MissingRegion: "Pick your grid region for a CO₂e estimate",
   compareSection: "Same workload — local vs cloud",
   compareCloudUnknown:
-    "Cloud ({provider}/{model}): energy unknown from provider · showing range / model estimate if available",
+    "Cloud ({provider}/{model}): energy unknown from provider · Wh: null · optional labeled model range only when explicitly enabled",
   compareIntensityUnknown:
     "Provider grid intensity unknown — CO₂e shown as a range or omitted",
   compareFooter:
@@ -43,9 +44,10 @@ export const COPY = {
   profileTbd:
     "This hardware profile needs a measured Wh/token — showing range only / hidden until calibrated.",
   cloudEnergyNull:
-    "Provider doesn’t publish energy for this model. We won’t invent a precise Wh.",
+    "Provider doesn’t publish energy for this model. Cloud Wh is null in v0; we won’t invent a precise Wh. An optional range is shown only when explicitly enabled and labeled as a third-party model.",
   offlineIntensity:
-    "Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity.",
+    "Using annual grid factors (e.g. pinned EPA eGRID2023). v0 has no live Electricity Maps intensity.",
+  idleSetting: "Include idle/residency in session totals (off by default; opt in later)",
   staleMethodology: `Estimates use methodology ${METHODOLOGY_VERSION}.`,
   tips: [
     {

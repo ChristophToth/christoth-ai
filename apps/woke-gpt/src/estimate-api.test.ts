@@ -43,31 +43,32 @@ describe("API connector stub", () => {
     assert.ok(result.disclosure_flags.includes("price_user_override"));
   });
 
-  it("uses published watt-hours only when the caller already has them", () => {
+  it("keeps cloud watt-hours null even if a caller passes a published figure or the opt-in flag", () => {
     const result = estimateApiUsage({
       provider: "openai",
       model_id: "gpt-4.1-nano",
       prompt_tokens: 1000,
       completion_tokens: 1000,
       region: "CAMX",
-      published_energy_wh: 2,
+      enable_third_party_energy_model: true,
     });
-    assert.equal(result.estimated_Wh, 2);
-    assert.equal(result.estimated_Wh_reason, null);
-    assert.equal(result.sources.energy, "provider_published");
-    assert.equal(result.estimated_gCO2e, (2 / 1000) * 195);
-    assert.equal(result.disclosure_flags.includes("provider_energy_unknown"), false);
+    assert.equal(result.estimated_Wh, null);
+    assert.equal(result.estimated_Wh_range, null);
+    assert.equal(result.estimated_Wh_reason, "provider_energy_unknown");
+    assert.equal(result.estimated_gCO2e, null);
+    assert.equal(result.sources.energy, "unknown");
+    assert.equal(result.disclosure_flags.includes("third_party_energy_model"), false);
+    assert.ok(result.disclosure_flags.includes("provider_energy_unknown"));
   });
 
-  it("omits CO2e when provider intensity is unknown even if watt-hours were published", () => {
+  it("omits cloud CO2e when provider intensity is unknown", () => {
     const result = estimateApiUsage({
       provider: "openai",
       model_id: "gpt-4.1",
       prompt_tokens: 10,
       completion_tokens: 10,
-      published_energy_wh: 1,
     });
-    assert.equal(result.estimated_Wh, 1);
+    assert.equal(result.estimated_Wh, null);
     assert.equal(result.estimated_gCO2e, null);
     assert.ok(result.disclosure_flags.includes("provider_intensity_unknown"));
   });
@@ -88,7 +89,7 @@ describe("API connector stub", () => {
       model_id: "claude-opus-5",
       prompt_tokens: 500,
       completion_tokens: 500,
-      published_energy_wh: 9,
+      enable_third_party_energy_model: true,
     });
     assert.equal(result.estimated_Wh, null);
     assert.equal(result.estimated_Wh_reason, "provider_energy_unknown");

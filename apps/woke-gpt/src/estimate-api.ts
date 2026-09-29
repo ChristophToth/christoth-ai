@@ -5,8 +5,9 @@ import { METHODOLOGY_VERSION } from "./version.ts";
 
 /**
  * Cloud / API estimate. Spec: API_KEY_ESTIMATES_SPEC.md.
- * No network. No API keys. Wh stays null unless the caller already has a
- * provider-published figure (in-process only; the HTTP stub refuses it).
+ * No network. No API keys.
+ * v0 lock: estimated_Wh is always null. A third-party range stays null too,
+ * because this build does not ship sourced EcoLogits coefficients.
  */
 
 export const API_PROVIDERS = ["openai", "anthropic", "google", "mistral", "other"] as const;
@@ -38,11 +39,8 @@ export type ApiEstimateInput = {
   };
   request_id?: string | null;
   locale_grid_hint?: string | null;
-  /**
-   * Provider-published watt-hours for this request, if a future connector
-   * already has that publication. v0 never looks one up.
-   */
-  published_energy_wh?: number | null;
+  /** Explicit opt-in. v0 still returns a null range: no sourced model ships here. */
+  enable_third_party_energy_model?: boolean;
 };
 
 export type ApiEstimateOutput = {
@@ -82,22 +80,14 @@ export function estimateApiUsage(input: ApiEstimateInput): ApiEstimateOutput {
 
   const flags = new Set<DisclosureFlag>(["estimate_not_meter", "operational_energy_only"]);
 
-  const published = finiteOrNull(input.published_energy_wh);
-  let estimatedWh: number | null = null;
-  let energySource: ApiEstimateOutput["sources"]["energy"] = "unknown";
-  let energyReason: string | null = null;
-
-  if (published !== null && published >= 0) {
-    estimatedWh = published;
-    energySource = "provider_published";
-  } else {
-    estimatedWh = null;
-    energyReason = "provider_energy_unknown";
-    flags.add("provider_energy_unknown");
-  }
-
-  // v0 does not ship an EcoLogits coefficient table. Range stays null.
-  const estimatedWhRange = null;
+  // v0 cloud overlay: a single Wh is never filled, even if a caller has a published figure.
+  const estimatedWh = null;
+  const energyReason = "provider_energy_unknown";
+  flags.add("provider_energy_unknown");
+  const energySource: ApiEstimateOutput["sources"]["energy"] = "unknown";
+  // Opt-in is accepted. No sourced EcoLogits coefficients ship in v0, so the range stays null
+  // and third_party_energy_model is not set.
+  const estimatedWhRange = input.enable_third_party_energy_model === true ? null : null;
 
   const overridePrompt = finiteOrNull(input.user_price_per_1m?.prompt_usd);
   const overrideCompletion = finiteOrNull(input.user_price_per_1m?.completion_usd);
@@ -129,7 +119,6 @@ export function estimateApiUsage(input: ApiEstimateInput): ApiEstimateOutput {
   const regionId = input.region ?? input.locale_grid_hint ?? null;
   const region = regionId ? findRegion(regionId) : undefined;
   let intensitySource: string | null = null;
-  let estimatedGco2e: number | null = null;
 
   if (!region) {
     flags.add("provider_intensity_unknown");
@@ -144,10 +133,10 @@ export function estimateApiUsage(input: ApiEstimateInput): ApiEstimateOutput {
     if (input.region == null && input.locale_grid_hint) {
       flags.add("region_fallback");
     }
-    if (estimatedWh !== null) {
-      estimatedGco2e = (estimatedWh / 1000) * region.intensityGPerKwh;
-    }
   }
+
+  // gCO2e = (Wh / 1000) × intensity. Cloud Wh is null in v0, so CO2e stays null.
+  const estimatedGco2e = null;
 
   return {
     estimated_Wh: estimatedWh,

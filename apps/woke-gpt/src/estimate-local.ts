@@ -1,5 +1,5 @@
 import { findHardware, WORKED_EXAMPLE, type PowerBand } from "./hardware.ts";
-import { findRegion } from "./grids.ts";
+import { EGRID_YEAR, findRegion } from "./grids.ts";
 import { formatRange, formatUsdRange } from "./format.ts";
 import { METHODOLOGY_VERSION } from "./version.ts";
 
@@ -28,6 +28,7 @@ export type LocalEstimateInput = {
   regionId: string;
   /** Null uses the labeled EIA residential default band. */
   priceUsdPerKwh: number | null;
+  /** Accepted and ignored. v0 does not add idle to generation or session energy. */
   includeIdle: boolean;
   idlePowerW: number | null;
   idleMinutes: number | null;
@@ -73,7 +74,11 @@ export type LocalEstimate = {
     intensityConfidence: string;
     priceSource: "user_entered" | "default_eia_us_residential" | "unavailable";
     priceUsdPerKwh: NumberRange | null;
-    includesIdle: boolean;
+    priceEditLabel: string | null;
+    includesIdle: false;
+    idlePolicy: "excluded_v0";
+    egridYear: number | null;
+    intensityCadence: "annual";
     tokenNote: string | null;
     annualFactorNote: string;
   };
@@ -200,24 +205,9 @@ export function estimateLocal(input: LocalEstimateInput): LocalEstimate {
     gco2e = scaleRange(energyWh, factor);
   }
 
-  let idleWh: number | null = null;
-  if (input.includeIdle) {
-    if (
-      typeof input.idlePowerW === "number" &&
-      input.idlePowerW >= 0 &&
-      typeof input.idleMinutes === "number" &&
-      input.idleMinutes >= 0
-    ) {
-      idleWh = input.idlePowerW * (input.idleMinutes / 60);
-    }
-  }
-
-  let sessionEnergyWh: NumberRange | null = null;
-  if (input.includeIdle && idleWh !== null && energyWh) {
-    sessionEnergyWh = { low: energyWh.low + idleWh, high: energyWh.high + idleWh };
-  } else if (input.includeIdle && idleWh !== null && !energyWh) {
-    sessionEnergyWh = { low: idleWh, high: idleWh };
-  }
+  // v0 lock: idle is off. Do not fold residency watts into generation or session energy.
+  const idleWh = null;
+  const sessionEnergyWh = null;
 
   const tokenNote =
     input.tokenSource === "rough_char_estimate"
@@ -264,10 +254,17 @@ export function estimateLocal(input: LocalEstimateInput): LocalEstimate {
       intensityConfidence: region.confidence,
       priceSource,
       priceUsdPerKwh,
-      includesIdle: input.includeIdle && idleWh !== null,
+      priceEditLabel:
+        priceSource === "default_eia_us_residential"
+          ? "Default ~17–18¢/kWh — edit for your rate"
+          : null,
+      includesIdle: false,
+      idlePolicy: "excluded_v0",
+      egridYear: region.kind === "world_default" ? null : EGRID_YEAR,
+      intensityCadence: "annual",
       tokenNote,
       annualFactorNote:
-        "Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity.",
+        "Using annual grid factors (e.g. pinned EPA eGRID2023). v0 has no live Electricity Maps intensity.",
     },
   };
 }

@@ -8,7 +8,7 @@
  * 1. Keep the key in the harness secret store (never in this file).
  * 2. Map the provider usage object onto ApiEstimateInput.
  * 3. Call estimateApiUsage.
- * 4. Leave estimated_Wh null unless that provider published energy for the call.
+ * 4. Leave estimated_Wh null. v0 does not surface a single cloud watt-hour value.
  */
 
 import { estimateApiUsage, type ApiEstimateInput, type ApiEstimateOutput } from "./estimate-api.ts";
@@ -39,7 +39,7 @@ export function unimplementedConnector(id: string): ApiConnector {
     id,
     implemented: false,
     estimate(input) {
-      return estimateApiUsage({ ...input, published_energy_wh: null });
+      return estimateApiUsage({ ...input, enable_third_party_energy_model: false });
     },
   };
 }

@@ -1,7 +1,8 @@
 # Woke GPT Energy/Cost Pack — TLDR (Casey / Christopher)
 
 **Pack date:** 2026-09-28 PT · **methodology_version:** `2026-09-28.v0`  
-**Drop path:** `apps/woke-gpt/METHODOLOGY.md`. This summary sits beside it as `PACK_SUMMARY.md`.
+**Drop path for Staff Eng:** `apps/woke-gpt/METHODOLOGY.md` (or `apps/woke-gpt/docs/METHODOLOGY.md`) — re-diff when their PR opens.  
+**CloudAgent (context only):** cursor.com/agents/… targeting `ChristophToth/christoth-ai` `apps/woke-gpt/` — this pack is the science source of truth; do not wait on their code.
 
 ---
 
@@ -42,19 +43,23 @@ Wh/token from **measured** W ÷ tok/s, or **ranged** profiles — never fake met
 - Estimates ≠ meters; ranges / `~`; version the methodology date  
 - No “local always greener”; no greenwashing slogans  
 - Unsourced numbers → **TBD — needs measurement** or **EXAMPLE**  
-- Cloud Wh null unless provider-published or explicitly labeled third-party model (EcoLogits-class)
+- Cloud Wh is null in v0; an EcoLogits-class range is optional only behind an explicit flag and must be labeled
 
 ---
 
-## Gaps needing Christopher / Casey decision
+## v0 locks (Casey)
 
-1. **Calibrate local Wh/token** — ship TBD profiles vs run a short measurement pass (laptop CPU, Apple Silicon, one discrete GPU) before UI defaults.  
-2. **Default $/kWh** — require user entry vs EIA US residential default (~17–18¢) with loud labeling.  
-3. **eGRID vintage** — pin eGRID2023 now; process for swapping when EPA publishes 2024+.  
-4. **Live Electricity Maps** — v0 annual factors only vs optional API (cost/key/privacy).  
-5. **Idle in session totals** — off by default vs opt-in “include residency.”  
-6. **Cloud overlay v0** — null Wh only vs allow EcoLogits-style ranges behind a flag.  
-7. **Repo path** — `METHODOLOGY.md` at `apps/woke-gpt/` root vs `docs/`; align with Staff Eng PR layout on re-diff.
+These seven decisions are locked for v0 and folded into `METHODOLOGY.md`:
+
+1. **Local Wh/token:** Ship TBD local Wh/token profiles with clearly labeled **EXAMPLE** ranges; the measurement pass is **v0.1**, after the draft UI.
+2. **Default $/kWh:** Use the EIA US residential context of **~17–18¢/kWh**, with a loud **“Edit for your rate”** label; user-entered rates take precedence.
+3. **eGRID vintage:** Pin **eGRID2023**. When EPA publishes newer data, update the intensity table, bump `methodology_version`, and add a changelog note.
+4. **Electricity Maps:** v0 uses annual factors only; **no live Electricity Maps API** yet.
+5. **Idle:** Idle/residency is off by default; opt in later.
+6. **Cloud overlay:** Cloud `Wh` is null in v0; EcoLogits ranges are allowed only behind an explicit enable flag, if easy, and must be labeled as third-party model output.
+7. **Repo path:** Prefer `apps/woke-gpt/METHODOLOGY.md` at root; re-diff the Staff Eng PR when it opens.
+
+**Christopher first-draft package:** Wait for the harness PR and this pack together; do not treat either as complete alone.
 
 ---
 

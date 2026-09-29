@@ -66,7 +66,7 @@
         <label class="field">
           <span>$/kWh</span>
           <input id="price" name="price" inputmode="decimal" placeholder="blank = ~17–18¢ EIA default">
-          <small>Your utility rate (optional). Leave blank for the labeled EIA default. Add your $/kWh for a cost estimate that uses your rate.</small>
+          <small><strong>Default ~17–18¢/kWh — edit for your rate</strong>. Your utility rate (optional). A rate you enter replaces the EIA default. Add your $/kWh for a cost estimate that uses your rate.</small>
         </label>
         <label class="field">
           <span>Tokens/sec</span>
@@ -79,22 +79,9 @@
             <input id="watts-low" inputmode="decimal" placeholder="low" aria-label="Measured active watts, low">
             <input id="watts-high" inputmode="decimal" placeholder="high" aria-label="Measured active watts, high">
           </span>
-          <small>Optional meter or tool reading. Replaces the profile envelope.</small>
+          <small>Optional meter or tool reading. Replaces the EXAMPLE power envelope. Wh/token stays TBD until measured.</small>
         </label>
-        <label class="check">
-          <input id="idle" type="checkbox">
-          Include idle/residency in session totals (experimental)
-        </label>
-        <div class="pair" id="idle-fields" hidden>
-          <label class="field">
-            <span>Idle watts</span>
-            <input id="idle-watts" inputmode="decimal" placeholder="W">
-          </label>
-          <label class="field">
-            <span>Minutes resident</span>
-            <input id="idle-minutes" inputmode="decimal" placeholder="min">
-          </label>
-        </div>
+        <p class="muted">Include idle/residency in session totals (off by default; opt in later). v0 does not add idle watts to generation energy.</p>
       </div>
 
       <dl class="meters">
@@ -116,7 +103,7 @@
         <div>
           <dt>CO₂e estimate</dt>
           <dd id="co2">—</dd>
-          <dd class="sub" id="co2-sub">Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity.</dd>
+          <dd class="sub" id="co2-sub">Using annual grid factors (e.g. pinned EPA eGRID2023). v0 has no live Electricity Maps intensity.</dd>
         </div>
       </dl>
 
@@ -133,7 +120,7 @@
           <select id="cloud-model"></select>
         </label>
         <p id="local-line">Local: waiting for tokens.</p>
-        <p id="cloud-line">Provider doesn’t publish energy for this model. We won’t invent a precise Wh.</p>
+        <p id="cloud-line">Provider doesn’t publish energy for this model. Cloud Wh is null in v0; we won’t invent a precise Wh. An optional range is shown only when explicitly enabled and labeled as a third-party model.</p>
         <p id="cloud-intensity">Provider grid intensity unknown — CO₂e shown as a range or omitted</p>
         <div class="split">
           <div>

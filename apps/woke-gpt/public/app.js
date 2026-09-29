@@ -35,9 +35,7 @@ function formPayload(extra = {}) {
     throughputSource: tps ? "user_reported" : "unavailable",
     measuredActivePowerWLow: wattsLow,
     measuredActivePowerWHigh: wattsHigh,
-    includeIdle: $("idle").checked,
-    idlePowerW: $("idle").checked ? numberOrNull($("idle-watts").value) : null,
-    idleMinutes: $("idle").checked ? numberOrNull($("idle-minutes").value) : null,
+    includeIdle: false,
     provider: provider || "anthropic",
     model_id: modelId || "claude-haiku-4-5",
     ...extra,
@@ -62,7 +60,7 @@ function renderAssumptions(estimate) {
   const price = assumptions.priceUsdPerKwh;
   const priceText =
     assumptions.priceSource === "default_eia_us_residential"
-      ? "~17–18¢/kWh (EIA US residential default, price_source: default_eia_us_residential)"
+      ? "Default ~17–18¢/kWh — edit for your rate (price_source: default_eia_us_residential)"
       : price
         ? `${price.low} $/kWh (rate you entered)`
         : "no price";
@@ -75,6 +73,8 @@ function renderAssumptions(estimate) {
     `Throughput: ${assumptions.completionTokensPerSec ?? "not measured"} tok/s (${assumptions.throughputSource}).`,
     `Formula: ${assumptions.formula}. Applied to prompt + completion tokens.`,
     `Grid: ${assumptions.regionLabel}. ~${assumptions.intensityGPerKwh} g/kWh. ${assumptions.intensitySource}`,
+    `Grid vintage: eGRID ${assumptions.egridYear ?? "n/a"} · ${assumptions.intensityCadence} factors only.`,
+    `Idle: ${assumptions.idlePolicy}. Not added to generation energy.`,
     `Region id ${assumptions.regionId}. Confidence: ${assumptions.intensityConfidence}.`,
     `Price: ${priceText}.`,
     assumptions.annualFactorNote,
@@ -105,7 +105,7 @@ function renderAssumptions(estimate) {
     $("cost").textContent = estimate.display.cost;
     const priceLine =
       assumptions.priceSource === "default_eia_us_residential"
-        ? "At ~17–18¢/kWh (EIA US residential default)"
+        ? "Default ~17–18¢/kWh — edit for your rate"
         : `At ${price?.low} $/kWh (rate you entered)`;
     $("cost-sub").textContent =
       estimate.costUsd.high < 0.01
@@ -118,7 +118,7 @@ function renderAssumptions(estimate) {
 
   if (estimate.gco2e) {
     $("co2").textContent = estimate.display.gco2e;
-    $("co2-sub").textContent = `Grid: ${assumptions.regionLabel} · ${assumptions.intensityGPerKwh} g/kWh (${assumptions.intensitySource}) Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity.`;
+    $("co2-sub").textContent = `Grid: ${assumptions.regionLabel} · ${assumptions.intensityGPerKwh} g/kWh (${assumptions.intensitySource}) Using annual grid factors (e.g. pinned EPA eGRID2023). v0 has no live Electricity Maps intensity.`;
   } else {
     $("co2").textContent = "—";
     $("co2-sub").textContent = "Pick your grid region for a CO₂e estimate";
@@ -131,9 +131,9 @@ function renderAssumptions(estimate) {
 
 function renderCloud(cloud, sampleDisplay, sampleBand) {
   const name = `${cloud.sources.price === "unknown" ? $("cloud-model").value : $("cloud-model").selectedOptions[0]?.textContent ?? "cloud"}`;
-  $("cloud-line").textContent = `Cloud (${name}): energy unknown from provider. Provider doesn’t publish energy for this model. We won’t invent a precise Wh.`;
-  if (cloud.estimated_Wh !== null) {
-    $("cloud-line").textContent = "Cloud energy was returned unexpectedly. v0 UI still treats provider energy as unknown.";
+  $("cloud-line").textContent = `Cloud (${name}): energy unknown from provider · Wh: null. Provider doesn’t publish energy for this model. Cloud Wh is null in v0; we won’t invent a precise Wh. An optional range is shown only when explicitly enabled and labeled as a third-party model.`;
+  if (cloud.estimated_Wh !== null || cloud.estimated_Wh_range !== null) {
+    $("cloud-line").textContent = "Cloud energy was returned unexpectedly. v0 keeps cloud Wh null.";
   }
   $("cloud-intensity").textContent = "Provider grid intensity unknown — CO₂e shown as a range or omitted";
   $("api-cost").textContent = cloud.estimated_usd_display ?? "—";
@@ -273,11 +273,7 @@ async function boot() {
   $("run").disabled = false;
 }
 
-$("idle").addEventListener("change", () => {
-  $("idle-fields").hidden = !$("idle").checked;
-});
-
-for (const id of ["hardware", "region", "price", "tps", "watts-low", "watts-high", "idle", "idle-watts", "idle-minutes", "cloud-model"]) {
+for (const id of ["hardware", "region", "price", "tps", "watts-low", "watts-high", "cloud-model"]) {
   $(id).addEventListener("change", () => {
     void rerunEstimate();
   });

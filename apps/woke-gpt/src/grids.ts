@@ -61,7 +61,7 @@ const EGRID_ROWS: readonly EgridRow[] = [
 ];
 
 const EGRID_SOURCE =
-  "EPA eGRID2023 total output CO2e (annual). Not live carbon intensity.";
+  "EPA eGRID2023 total output CO2e, annual (egrid_year: 2023). v0 has no live Electricity Maps intensity.";
 
 export function intensityFromLbPerMwh(lbCo2ePerMwh: number): number {
   return Math.round(lbCo2ePerMwh * LB_PER_MWH_TO_G_PER_KWH);
@@ -91,7 +91,7 @@ const WORLD_DEFAULT: GridRegion = {
   lbCo2ePerMwh: null,
   intensityGPerKwh: 475,
   intensitySource:
-    "CodeCarbon / Our World in Data world default, 475 gCO2eq/kWh, used only when the region is unknown",
+    "CodeCarbon / Our World in Data annual world default, 475 gCO2eq/kWh, used only when the region is unknown. Not a live Electricity Maps factor.",
   confidence: "low",
 };
 

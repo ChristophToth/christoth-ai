@@ -44,11 +44,12 @@ npm run typecheck   # after npm install
 
 - **Tokens** — measured by the local runtime, or a labeled rough estimate (~4 characters per token).
 - **Energy** — `tokens × (active watts / tokens per second) / 3600`, as a range. Laptop CPU and Apple Silicon start from the methodology’s example power envelopes. Discrete GPU and small-server profiles stay **TBD** until you enter measured watts. This is not a wall meter.
-- **Electricity $** — watt-hours × your $/kWh, or the labeled EIA US residential default of about 17–18¢/kWh.
-- **CO₂e** — watt-hours × an annual grid factor. US regions are EPA eGRID2023 total-output CO₂e. The unknown-grid row is the CodeCarbon / OWID world default (475 g/kWh), marked low confidence. Not live Electricity Maps data.
-- **Cloud compare** — same token counts. Provider watt-hours stay **null** (energy unknown). The dollar side is a frozen list-price sample, separate from electricity, shown as a band. Local is not always lower.
+- **Electricity $** — watt-hours × your $/kWh. The default is the EIA US residential context of ~17–18¢/kWh, labeled **Default ~17–18¢/kWh — edit for your rate**. A rate you type replaces that default.
+- **CO₂e** — watt-hours × an **annual** grid factor. US regions are pinned to EPA **eGRID2023** total-output CO₂e (`egrid_year: 2023`). The unknown-grid row is the CodeCarbon / OWID annual world default (475 g/kWh). v0 does not call Electricity Maps.
+- **Cloud compare** — same token counts. Cloud watt-hours stay **null** in v0, including when a third-party model flag is set, because this build has no sourced EcoLogits table. API list prices are a separate band. Local is not always lower.
+- **Idle** — excluded. v0 does not add residency watts to generation energy. An include-idle control is later work.
 
-Change the hardware profile, eGRID subregion, $/kWh, or a measured tokens/sec and the latest reply recalculates. Assumptions stay on the panel. Idle/residency is off unless you opt in, and it is kept separate from the generation estimate.
+Change the hardware profile, eGRID subregion, $/kWh, or a measured tokens/sec and the latest reply recalculates. Assumptions stay on the panel.
 
 ## v0 scope
 
@@ -82,4 +83,4 @@ apps/woke-gpt/
 └── public/                     # usage UI
 ```
 
-Panel copy is in [UI_COPY.md](UI_COPY.md). Pack notes are in [PACK_SUMMARY.md](PACK_SUMMARY.md).
+Panel copy is in [UI_COPY.md](UI_COPY.md). Pack notes are in [SUMMARY.md](SUMMARY.md).
