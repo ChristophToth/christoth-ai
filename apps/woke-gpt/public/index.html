@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Woke GPT — local harness</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <p class="eyebrow">Woke GPT · local open-source harness · v0</p>
+      <h1>A local model, with the estimate beside it.</h1>
+      <p class="lede">Run an open model on this machine through Ollama. Tokens can be measured. Watt-hours, electricity cost, and CO₂e stay estimates, with the grid and the hardware band in view.</p>
+      <p class="banner" role="note" aria-label="Energy and cost figures are estimates based on tokens, hardware assumptions, and published grid data. They are not measured from a utility meter.">
+        Estimates, not meters — approximate energy, cost, and CO₂e.
+        <a href="/methodology">Methodology</a>
+      </p>
+      <p class="chip" id="version-chip">methodology 2026-09-28.v0</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="panel chat" aria-label="Local model">
+      <div class="panel-head">
+        <h2>Local model</h2>
+        <p id="runtime-status" class="status">Checking the local runtime…</p>
+      </div>
+      <label class="field">
+        <span>Ollama model name</span>
+        <input id="model" name="model" value="llama3.2" autocomplete="off" spellcheck="false">
+      </label>
+      <div id="transcript" class="transcript" aria-live="polite">
+        <p class="empty" id="empty-thread">No reply yet. If Ollama is not running, this page still counts a rough token estimate and leaves energy blank until tokens/sec are measured.</p>
+      </div>
+      <form id="chat-form">
+        <label class="field">
+          <span>Prompt</span>
+          <textarea id="prompt" name="prompt" rows="5" required placeholder="Ask the local model. Shorter prompts do less work."></textarea>
+        </label>
+        <div class="row">
+          <button type="submit" id="run">Run locally</button>
+          <p class="hint" id="run-hint">No API key. The request stays on this machine.</p>
+        </div>
+      </form>
+      <p class="install">Install path: <a href="https://ollama.com">Ollama</a>, then <code>ollama pull llama3.2</code> and <code>ollama serve</code>. The harness reads <code>eval_count</code> and <code>eval_duration</code> from the local API.</p>
+    </section>
+
+    <section class="panel usage" aria-label="Energy and cost figures are estimates based on tokens, hardware assumptions, and published grid data. They are not measured from a utility meter.">
+      <div class="panel-head">
+        <h2>This session (estimated)</h2>
+        <p class="muted" id="session-note">Run a prompt to see usage estimates.</p>
+      </div>
+
+      <div class="controls">
+        <label class="field">
+          <span>Hardware profile</span>
+          <select id="hardware" name="hardware"></select>
+          <small>Your machine (affects Wh/token)</small>
+        </label>
+        <label class="field">
+          <span>Grid region</span>
+          <select id="region" name="region"></select>
+          <small>Where your power comes from (US: eGRID subregion)</small>
+        </label>
+        <label class="field">
+          <span>$/kWh</span>
+          <input id="price" name="price" inputmode="decimal" placeholder="blank = ~17–18¢ EIA default">
+          <small>Your utility rate (optional). Leave blank for the labeled EIA default. Add your $/kWh for a cost estimate that uses your rate.</small>
+        </label>
+        <label class="field">
+          <span>Tokens/sec</span>
+          <input id="tps" name="tps" inputmode="decimal" placeholder="only if you measured it">
+          <small>Used when the runtime did not report generation speed.</small>
+        </label>
+        <label class="field">
+          <span>Measured active watts (low–high)</span>
+          <span class="pair">
+            <input id="watts-low" inputmode="decimal" placeholder="low" aria-label="Measured active watts, low">
+            <input id="watts-high" inputmode="decimal" placeholder="high" aria-label="Measured active watts, high">
+          </span>
+          <small>Optional meter or tool reading. Replaces the profile envelope.</small>
+        </label>
+        <label class="check">
+          <input id="idle" type="checkbox">
+          Include idle/residency in session totals (experimental)
+        </label>
+        <div class="pair" id="idle-fields" hidden>
+          <label class="field">
+            <span>Idle watts</span>
+            <input id="idle-watts" inputmode="decimal" placeholder="W">
+          </label>
+          <label class="field">
+            <span>Minutes resident</span>
+            <input id="idle-minutes" inputmode="decimal" placeholder="min">
+          </label>
+        </div>
+      </div>
+
+      <dl class="meters">
+        <div>
+          <dt>Tokens</dt>
+          <dd id="tokens">—</dd>
+          <dd class="sub" id="tokens-sub"></dd>
+        </div>
+        <div>
+          <dt>Energy estimate</dt>
+          <dd id="energy">Energy estimate unavailable — hardware profile not calibrated</dd>
+          <dd class="sub" id="energy-sub">This hardware profile needs a measured Wh/token — showing range only / hidden until calibrated.</dd>
+        </div>
+        <div>
+          <dt>Electricity cost estimate</dt>
+          <dd id="cost">—</dd>
+          <dd class="sub" id="cost-sub"></dd>
+        </div>
+        <div>
+          <dt>CO₂e estimate</dt>
+          <dd id="co2">—</dd>
+          <dd class="sub" id="co2-sub">Using annual grid factors (e.g. EPA eGRID). Not live carbon intensity.</dd>
+        </div>
+      </dl>
+
+      <div class="assumptions" id="assumptions">
+        <h3>Assumptions in this figure</h3>
+        <p id="assumption-body">Pick a region. The default is the eGRID U.S. average, which is coarser than your subregion.</p>
+      </div>
+
+      <section class="compare" aria-label="Same workload — local vs cloud">
+        <h3>Same workload — local vs cloud</h3>
+        <p class="muted">Compare uses the same token counts on both sides.</p>
+        <label class="field">
+          <span>List-price sample (no key, no call)</span>
+          <select id="cloud-model"></select>
+        </label>
+        <p id="local-line">Local: waiting for tokens.</p>
+        <p id="cloud-line">Provider doesn’t publish energy for this model. We won’t invent a precise Wh.</p>
+        <p id="cloud-intensity">Provider grid intensity unknown — CO₂e shown as a range or omitted</p>
+        <div class="split">
+          <div>
+            <p class="label">API cost estimate</p>
+            <p id="api-cost" class="figure">—</p>
+            <p class="sub">From token usage × $/1M rates — not electricity</p>
+            <p class="sub">Shown separately from local electricity cost</p>
+          </div>
+          <div>
+            <p class="label">Sample band</p>
+            <p id="sample-band" class="figure">—</p>
+            <p class="sub" id="sample-note">Min–max across the frozen list-price sample. Not an average and not electricity.</p>
+          </div>
+        </div>
+        <p class="footer-line">Local isn’t always lower. Dirty local grid + hungry hardware can beat a clean, efficient cloud run — and the reverse.</p>
+      </section>
+
+      <details class="example">
+        <summary>Worked example (not your session)</summary>
+        <p id="example-copy">EXAMPLE only: ~250 W at ~50 tok/s for 2,000 tokens is about ~2.8 Wh. Do not read it as a meter.</p>
+      </details>
+    </section>
+  </main>
+
+  <section class="wrap tips" aria-labelledby="tips-title">
+    <h2 id="tips-title">Tips for efficient usage</h2>
+    <ol>
+      <li>
+        <strong>Use a smaller model when it’s good enough</strong>
+        <p>Fewer parameters and lighter runtimes usually mean less energy per reply. Try the smallest local model that still does the job.</p>
+      </li>
+      <li>
+        <strong>Cut tokens you don’t need</strong>
+        <p>Shorter prompts and shorter max replies reduce work. Drop boilerplate, repeated paste, and “just in case” context.</p>
+      </li>
+      <li>
+        <strong>Watch context bloat</strong>
+        <p>Long chat history and huge pasted docs get re-processed. Summarize or start a fresh thread when the thread gets fat.</p>
+      </li>
+      <li>
+        <strong>Quantize for local runs</strong>
+        <p>Lower-bit weights (when quality holds) often raise tokens/sec at similar or lower power — better Wh/token on the same box.</p>
+      </li>
+      <li>
+        <strong>Batch when you’re offline-processing</strong>
+        <p>One batched job on a GPU is usually more efficient than many tiny one-off calls with the model thrashing cold.</p>
+      </li>
+      <li>
+        <strong>Match place to hardware</strong>
+        <p>Clean local grid + efficient laptop/Apple Silicon → local can look good. Hot discrete GPU on a carbon-heavy grid, or a box left loaded 24/7 for rare chats → cloud (or sleep/unload) may win. Compare; don’t assume.</p>
+      </li>
+      <li>
+        <strong>Unload when idle</strong>
+        <p>A model sitting in VRAM still draws power. Quit or unload between sessions if you’re not chatting continuously.</p>
+      </li>
+      <li>
+        <strong>Prefer task-specific tools over a giant general model</strong>
+        <p>Classification/summarize-with-a-small-model often beats asking a large general LLM the same narrow question (see inference-energy literature in Methodology).</p>
+      </li>
+    </ol>
+  </section>
+
+  <footer class="wrap foot">
+    <p>Science-based estimates, not a utility meter or a certified footprint. <a href="/methodology">Methodology</a> · <span id="foot-version">methodology 2026-09-28.v0</span></p>
+  </footer>
+  <noscript><p class="wrap">JavaScript is required to call the local runtime. The methodology page works without it.</p></noscript>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

@@ -162,3 +162,7 @@ All animations honor `prefers-reduced-motion` via `useReducedMotion` where it ma
 - Lighthouse target out of the box: 95+ across the board once you swap to optimized local assets.
 
 Have fun. Ship it.
+
+## Woke GPT harness
+
+Local open-source model harness with estimated energy, electricity cost, and CO₂e: [`apps/woke-gpt`](apps/woke-gpt/README.md).
