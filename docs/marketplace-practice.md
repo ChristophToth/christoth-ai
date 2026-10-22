@@ -11,6 +11,8 @@ After deploy:
 
 `/marketplace-practice` is a rewrite to the static file in `public/`. The file is self-contained: inline CSS and JavaScript, system fonts, and `localStorage` for saves. Loading it does not request other assets. A few source links inside the page point at public guides; those are ordinary links, not required to play.
 
+The page uses a light gray canvas, system sans-serif type, and blue pill controls, in the spirit of apple.com and att.com. No webfonts are loaded. On a Mac the type resolves to San Francisco. On Windows it resolves to Segoe UI.
+
 ## Update
 
-Replace `public/marketplace-practice.html` with the new single-file HTML. Keep it one file with inline CSS and JavaScript and no external stylesheets, scripts, fonts, or images. Do not commit ILS Help File text, course decks, or PDFs.
+Replace `public/marketplace-practice.html` with the new single-file HTML, then keep or reapply the `<style>` block if the new file brings back the old serif theme. Keep it one file with inline CSS and JavaScript and no external stylesheets, scripts, fonts, or images. Do not commit ILS Help File text, course decks, or PDFs.
