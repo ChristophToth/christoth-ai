@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marketplace Practice Case: Carbon-Fiber Bikes</title>
+<style>
+:root{color-scheme:light;--bg:#fbf9f4;--paper:#ffffff;--fg:#2b2b2b;--mut:#5f5b55;--bd:#e3ded4;--card:#f7f4ee;--acc:#A51C30;--accd:#7f1524;--good:#2f6b3a;--ok:#9a6a00;--bad:#A51C30}
+*{box-sizing:border-box}html,body{background:var(--bg)}body{margin:0;color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3,h4,.serif{font-family:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",serif;font-weight:normal;color:#1f1f1f}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 22px 60px}
+.case{border-top:4px solid var(--acc);border-bottom:1px solid var(--bd);background:var(--paper);padding:26px 26px 20px;margin-bottom:22px}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:0 0 6px}
+h1{font-size:32px;line-height:1.2;margin:0 0 10px}h3{font-size:24px;margin:4px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}h4{font-size:19px;margin:26px 0 8px}
+.sub{color:var(--mut);margin:0;max-width:760px}.meta{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:14px;font-size:13px;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;padding:14px 4px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.bar span{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}.bar b{font-family:Georgia,serif;font-size:20px;color:var(--fg);text-transform:none;letter-spacing:0;margin-left:6px;font-weight:normal;font-variant-numeric:tabular-nums}
+.tabs{display:flex;flex-wrap:wrap;gap:0 22px;margin:22px 0 18px;border-bottom:1px solid var(--bd)}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 2px;font-family:Georgia,serif;font-size:17px;color:var(--mut)}
+.tabs button.on{background:none;color:var(--acc);border-bottom-color:var(--acc)}
+button{font:inherit;font-size:14px;border:1px solid var(--bd);background:var(--paper);color:var(--fg);border-radius:3px;padding:7px 14px;cursor:pointer}
+button:hover{border-color:var(--acc)}button.on,button.primary{background:var(--acc);border-color:var(--acc);color:#fff}button.primary:hover{background:var(--accd)}button:disabled{opacity:.45;cursor:not-allowed}
+.dec{display:grid;grid-template-columns:250px 1fr;gap:28px}#nav{display:flex;flex-direction:column;gap:0;border-left:1px solid var(--bd)}
+#nav button{text-align:left;border:0;border-left:3px solid transparent;margin-left:-1px;border-radius:0;background:none;padding:8px 12px;color:var(--mut)}
+#nav button.on{color:var(--acc);border-left-color:var(--acc);background:none;font-weight:600}
+@media (max-width:760px){.dec{grid-template-columns:1fr}#nav{flex-direction:row;flex-wrap:wrap;border-left:0;border-bottom:1px solid var(--bd)}#nav button{border-left:0;border-bottom:3px solid transparent;font-size:13px;padding:6px 8px}#nav button.on{border-bottom-color:var(--acc)}h1{font-size:26px}.case{padding:20px 16px}}
+.row{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;margin:12px 0}.fld{display:flex;flex-direction:column;font-size:13px;color:var(--mut);min-width:160px;flex:1 1 160px}
+.fld input,.fld select{font:inherit;font-size:15px;color:var(--fg);background:var(--paper);border:1px solid var(--bd);border-radius:3px;padding:7px 9px;margin-top:4px}
+.fld input:focus,.fld select:focus{outline:2px solid rgba(165,28,48,.25);border-color:var(--acc)}
+.chk{display:flex;gap:8px;align-items:center}.lbl{min-width:150px;font-family:Georgia,serif;font-weight:normal}
+.card{border:1px solid var(--bd);border-radius:2px;padding:14px 18px;margin:14px 0;background:var(--paper)}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:8px 0 6px;font-size:14.5px;background:var(--paper)}
+th,td{border-bottom:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #cfc8bb}
+td{font-variant-numeric:tabular-nums}.note{color:var(--mut);font-size:13.5px}.lock{color:var(--ok);font-style:italic}
+.j{display:inline-block;min-width:28px;text-align:center;font-weight:600}.j.good{color:var(--good)}.j.ok{color:var(--ok)}.j.bad{color:var(--bad)}
+.neg{color:var(--bad)}.est,.src{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;border-radius:2px;padding:0 5px;margin-left:4px;vertical-align:2px;border:1px solid}.est{color:var(--ok)}.src{color:var(--good)}
+.claims{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.claim{font-size:13px;padding:5px 9px}
+.box{border:1px solid var(--bd);border-left:3px solid var(--bd);padding:10px 14px;margin:10px 0;background:var(--paper)}.box.bad{border-left-color:var(--bad)}.box.good{border-left-color:var(--good)}.box.warn{border-left-color:var(--ok)}
+.coach{border-left:3px solid var(--acc);padding:10px 18px;background:var(--paper);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}.coach b{font-family:Georgia,serif;font-weight:normal;font-size:18px;color:var(--acc)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}@media (max-width:760px){.two{grid-template-columns:1fr}}
+textarea{width:100%;min-height:54px;font:12px ui-monospace,Menlo,Consolas,monospace;background:var(--paper);color:var(--fg);border:1px solid var(--bd);border-radius:3px;padding:8px}
+a{color:var(--acc)}.save{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 8px}#msg{color:var(--good);font-size:13px}
+ul,ol{padding-left:22px}li{margin:4px 0}
+footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--mut)}
+.scen{background:var(--paper);border:1px solid var(--bd);padding:18px 20px;margin:0 0 18px}.scen h2{font-size:22px;margin:0 0 4px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
+.sc{border:1px solid var(--bd);border-top:3px solid var(--bd);padding:12px 14px;background:var(--bg);display:flex;flex-direction:column;gap:6px}.sc.cur{border-top-color:var(--acc)}
+.sc h4{margin:0;font-size:17px}.sc p{margin:0;font-size:13.5px;color:var(--mut)}.sc button{align-self:flex-start;margin-top:auto}
+.ex{border:1px solid var(--bd);border-left:3px solid var(--acc);background:var(--paper);padding:14px 18px;margin:14px 0 0}.ex h4{margin:0 0 4px}.ex ul{margin:6px 0}
+details.share{margin:6px 0 4px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:8px 0}details.share summary{cursor:pointer;font-family:Georgia,serif;font-size:16px;color:var(--acc)}
+</style></head><body><div class="wrap">
+<header class="case"><p class="kicker">Practice Case &middot; Venture Strategy Simulation</p>
+<h1>Marketplace Practice Case: Carbon-Fiber Bikes</h1>
+<p class="sub">Your team is launching a company that 3D-prints carbon-fiber bikes and sells them through its own stores and a web center. Play Q1 through Q4 on the same screens, in the same order, as the course simulation. Tags show which numbers come from the <span class="src">real</span> game and which are practice estimates <span class="est">est</span>.</p>
+<div class="meta"><span>For practice before Q1 decisions, due Sat Oct 24, 11:59 PM PT</span><span>Teams of 3</span><span>Unofficial study aid</span></div></header>
+<section id="scen"></section>
+<div class="bar"><span>Quarter <b id="q"></b></span><span>Cash <b id="cash"></b></span><span>Founders own <b id="own"></b></span><span>Last Total Performance <b id="tp"></b></span></div>
+<div class="save"><button id="save">Save</button><button id="load">Load</button><button id="reset">Reset</button><span id="msg"></span></div>
+<details class="share"><summary>Share a game with a teammate (optional)</summary>
+<p class="note">No files are needed: export a short save code, paste it in a text or email, and your teammate imports it here.</p>
+<div class="save"><button id="export">Export save code</button><button id="import">Import save code</button></div>
+<textarea id="code" placeholder="Paste a teammate's save code here, then click Import save code."></textarea>
+</details>
+<div class="tabs"><button data-tab="dec">Decisions</button><button data-tab="res">Results</button><button data-tab="score">Scorecard</button><button data-tab="real">How the real game works</button><button data-tab="prep">Q1 prep</button></div>
+<div id="main">
+<div class="pane" id="pane-dec"><div class="dec"><div id="nav"></div><div><div id="screen"></div><p class="note">Live pro forma ending cash: <b id="pf"></b></p></div></div></div>
+<div class="pane" id="pane-res" hidden></div>
+<div class="pane" id="pane-score" hidden></div>
+<div class="pane" id="pane-real" hidden><h3>How the real game works</h3>
+<p>This is a summary of public guides to the Marketplace bikes game (Venture Strategy and Strategic Management). Your instance may have different numbers, so check the in-game Help File.</p>
+<h4>Quarter by quarter</h4>
+<table><tr><th>Quarter</th><th>What happens</th></tr>
+<tr><td>Q1 Set up</td><td>Organize the team, name the company, set goals and segment priorities, design brands, order a store and/or web center, buy 3D printers. There are no sales, no hiring and no ads in Q1. Q1 results match your pro forma exactly.</td></tr>
+<tr><td>Q2 Test market</td><td>Price, rebates, ad copy, media, website, hiring sales and service staff, pay, demand forecast, production schedule, operating capacity, market research.</td></tr>
+<tr><td>Q3 Adjust</td><td>Read the feedback (Brand, Price and Ad Judgments, sales per salesperson), fix what missed, add a store and capacity.</td></tr>
+<tr><td>Q4 Invest</td><td>Write the business plan and pitch VCs, use the bank line, and fund R&D for features that arrive in Q5 and Q6. Most auditor limits lift.</td></tr></table>
+<h4>Key facts</h4>
+<ul>
+<li>Three segments: Recreation (fun, comfort, price sensitive), Mountain (off-road, durable, handles inclines), Speed (light, fast, aerodynamic, least price sensitive). Willingness to pay is $1,100 / $1,365 / $1,580.</li>
+<li>Four store cities: New York ($200k setup, $62k/qtr lease), Rio ($90k / $17k), Amsterdam ($136k / $44k), Bangalore ($84k / $13k). The web center is $150k / $60k and sells globally. Stores open one quarter after you order them. (The course deck lists five regions; the guides group Europe with the Middle East and Africa under Amsterdam.)</li>
+<li>Auditor limits: 1 new store per quarter in Q1 to Q3, max 7 employees per location in Q2 and Q3, max 3 printers per quarter through Q3, ad limits of $80k in Q2 and $160k in Q3, price minus rebate over $400, Q1 price under $2,100.</li>
+<li>Each printer costs $30k and makes up to 520 bikes per quarter. Production = fixed capacity × operating capacity × worker productivity (about 70% early), plus up to 4 hours of overtime a day at double pay. Economies of scale are big: about 26% cheaper per unit at 250 bikes, 42% at 500 and 49% at 1,000 compared with 100.</li>
+<li>Demand is salespeople × units per salesperson. That's about 30 to 70 per salesperson in Q2, 75 to 125 in Q3, and 150+ by Q4. A service rep sells about 30% as much. Customers judge brand design, price and ads on a 1 to 100 scale. 70 is the minimum to be considered, 90+ is very good, and a gap of a few points against a rival matters a lot. Ad Judgment over 80 is very good, and more than 6 or 7 claims crowds the ad.</li>
+<li>Stockouts cut next quarter's demand by half your stockout %, and they also lower Market Performance.</li>
+<li>Emergency loan: if cash goes negative, the loan shark covers it at 5% to 25% (your deck says 10% to 25%), is repaid next quarter from whatever cash you have, and takes 1 share per $100. Bankruptcy happens when retained earnings plus common stock goes below zero. Guides suggest a pro forma cushion of $300k to $500k.</li>
+<li>Balanced Scorecard: Total Performance = Financial Performance × Market Performance × Marketing Effectiveness × Investment in Future × Wealth × HR Management × Asset Management × Manufacturing Productivity × Financial Risk. Any factor at zero or below zeroes the total.</li>
+</ul>
+<h4>Common rookie mistakes</h4>
+<ul>
+<li>Overspending on a hopeful forecast, which leads to an emergency loan and dilution.</li>
+<li>Too little capacity, which means stockouts. That costs sales now, cuts demand next quarter and lowers Market Performance.</li>
+<li>Too much operating capacity: idle workers still get paid.</li>
+<li>Hybrid bikes aimed at two segments that end up mediocre in both.</li>
+<li>Crowded ads, or ads that don't lead with the segment's top needs.</li>
+<li>Skipping market research, then being unable to tell why a brand didn't sell.</li>
+<li>Paying below the industry average, which lowers productivity.</li>
+<li>Teammates overwriting each other's saved screens. Agree on who edits what.</li>
+<li>Being too timid. Guides say the winners grow aggressively once Q4 lifts the limits.</li>
+</ul>
+<h4>What's real vs. estimated in this practice</h4>
+<table><tr><th>From real-game sources</th><th>Practice estimates</th></tr>
+<tr><td>Segments, needs scores, willingness to pay, city costs and potential, web center cost, printer cost and output, auditor limits, brand design $30k, ad creation $6k, most component prices, scale savings curve, stockout penalty, units-per-salesperson ranges, judgment thresholds, scorecard formulas, financing rules from your deck.</td><td>Exact demand math, how components map to Brand Judgment, how claims map to Ad Judgment, price sensitivity numbers, salary and wage averages, workers per printer, production overhead, depreciation, admin, research price, bank rate, VC share price, loan shark rate curve, and the computer teams.</td></tr></table>
+<h4>Sources</h4>
+<ul>
+<li><a href="https://unotes.net/documents/a9082b4e-48d2-4a99-8a55-a52562ddac5e/mgmt-430-foster-school-of-business-marketplace-bikes-student-guide">UW Foster MGMT 430 Marketplace Bikes student guide (2023)</a></li>
+<li><a href="https://support.ilsworld.com/hc/en-us/articles/203295576-Emergency-loans-Bankruptcy-and-you">ILS support: Emergency loans, bankruptcy and you</a></li>
+<li><a href="https://www.cliffsnotes.com/study-notes/23385798">Student-posted Balanced Scorecard printout (bikes game)</a></li>
+<li><a href="https://academics.epu.ntua.gr/sites/default/files/paignia/Help-File.pdf">Marketplace Help File (another industry, same engine): judgments, media, rebates</a></li>
+<li><a href="https://www.chegg.com/homework-help/questions-and-answers/company-name-jersey-bicycles-marketing-manager-responsibility-brand-name-highpoint-cost-de-q158983988">Design Brand screen with component prices (Chegg snippet)</a></li>
+<li><a href="https://www.reddit.com/r/WGU_MBA/comments/1iui30v/capstone_tips_simulation_and_task_1/">Student tips (r/WGU_MBA)</a> and <a href="https://www.reddit.com/r/marketplace2023/comments/s10nep/marketplace_simulation_guide_and_tips_for_2023/">segment builds (r/marketplace2023)</a></li>
+<li><a href="https://www.marketplace-simulation.com/compare-our-business-simulations/venture-strategy-bikes/">Marketplace Simulations: Venture Strategy</a></li>
+</ul>
+</div>
+<div class="pane" id="pane-prep" hidden><h3>Q1 prep checklist</h3>
+<p>Q1 team decisions are due Sat Oct 24, 11:59 PM PT.</p>
+<ol>
+<li>Organize the team, assign roles and agree on who edits which screen.</li>
+<li>Name the company.</li>
+<li>Read the market info: segment needs, willingness to pay, and potential by city.</li>
+<li>Goals and Strategy: pick a primary and secondary segment, and say why.</li>
+<li>Design 1 or 2 brands per target segment, each built for that segment only.</li>
+<li>Sales Channel: order your first store, and maybe the web center. It opens in Q2.</li>
+<li>Manufacturing: order printers for Q2 demand. A rough forecast is salespeople × 50 per salesperson, divided by about 70% productivity.</li>
+<li>Accounting: check the pro forma and keep cash for Q2 hiring, leases and production.</li>
+<li>Final Check, then Submit.</li>
+</ol>
+<h4>Role split for 3 people</h4>
+<table><tr><th>Person</th><th>Roles</th><th>Owns these screens</th></tr>
+<tr><td>A</td><td>Leadership + Marketing</td><td>Goals and Strategy, Design Brand, Price, Ad Content and Media. Runs meetings and hits the deadline.</td></tr>
+<tr><td>B</td><td>Sales + HR + Analytics</td><td>Sales Channel, staffing, compensation, market research, and the demand forecast as salespeople × units each.</td></tr>
+<tr><td>C</td><td>Manufacturing + Accounting/Finance</td><td>Printers, operating capacity, overtime, pro forma cash, loan shark watch, Final Check.</td></tr></table>
+<p class="note">Practice tip: each person plays this sim once alone, then the team plays one run together using the same save code and compares choices.</p>
+</div>
+</div><footer>Unofficial practice aid built for class prep. Not affiliated with or endorsed by Innovative Learning Solutions, Marketplace Simulations or any university. Estimated figures are marked and are not the real game's.</footer></div>
+<script>var MP_SCEN={"fresh":{"g":{"q":1,"cash":0,"printers":0,"pendingPrinters":0,"stores":{},"web":null,"designs":["","",""],"adKeys":["","",""],"stock":0,"founderShares":0,"vcShares":0,"sharkShares":0,"re":0,"shark":null,"bank":0,"ppe":0,"accDep":0,"penalty":0,"cumFuture":0,"cumNetRev":0,"history":[],"over":false,"bankrupt":false,"lastEquityBook":0},"d":{"primary":"Mountain","secondary":"Recreation","brands":[{"active":true,"name":"Trailcarve","type":"Rugged","comps":{"frame":"rugged","tires":"mtn","brakes":"disc","gears":"g24","seat":"allp","handlebars":"comfort","suspension":"front","carrier":"none","decals":"color"},"price":1299,"rebate":0,"claims":["incline","terrain","durable","light","repair","colorful"],"media":35000},{"active":true,"name":"Sunday Loop","type":"Comfort","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":999,"rebate":0,"claims":["comfort","easy","safety","simple","price","carry"],"media":35000},{"active":false,"name":"Aero One","type":"Aerodynamic","comps":{"frame":"aero","tires":"race","brakes":"precision","gears":"g14","seat":"race","handlebars":"drop","suspension":"none","carrier":"none","decals":"color"},"price":1580,"rebate":0,"claims":["speed","light","aero","compadv","durable","status"],"media":0}],"openStores":["NYC"],"openWeb":false,"staff":{},"salesSalary":17000,"prodWage":11000,"buyPrinters":2,"opCap":85,"overtime":0,"forecast":0,"research":false,"rd":0,"vc":0,"bankDraw":0,"bankRepay":0}},"q2ready":{"g":{"q":2,"cash":1180000,"printers":2,"pendingPrinters":0,"stores":{"NYC":"open"},"web":null,"designs":["[\"Rugged\",{\"frame\":\"rugged\",\"tires\":\"mtn\",\"brakes\":\"disc\",\"gears\":\"g24\",\"seat\":\"allp\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"none\",\"decals\":\"color\"}]","",""],"adKeys":["","",""],"stock":1500000,"founderShares":15000,"vcShares":0,"sharkShares":0,"re":-260000,"shark":null,"bank":0,"ppe":60000,"accDep":0,"penalty":0,"cumFuture":200000,"cumNetRev":0,"history":[{"q":1,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":0,"sold":0,"revenue":0}],"locs":[],"demand":0,"produced":0,"stockouts":0,"capability":0,"forecast":0,"revenue":0,"rebates":0,"netRev":0,"cogs":0,"unitCost":0,"gross":0,"exp":[{"label":"Brand design","amount":30000,"future":false},{"label":"Ad creation","amount":0,"future":false},{"label":"Media","amount":0,"future":false},{"label":"Sales and service salaries","amount":0,"future":false},{"label":"Store and web leases","amount":0,"future":false},{"label":"Store and web setup","amount":200000,"future":true},{"label":"Market research","amount":0,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":0,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":260000,"opProfit":-260000,"interest":0,"ni":-260000,"startCash":0,"equity":1500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":60000,"sharkRepaid":0,"preCash":1180000,"loan":0,"rate":0,"sharkShares":0,"endCash":1180000,"share":{"Recreation":0,"Mountain":0,"Speed":0},"compShare":[{"name":"Pedal Pushers","units":0},{"name":"Summit Velo","units":0},{"name":"AeroWorks","units":0}],"compInfo":null,"salesProd":0.75,"prodProd":0.7,"score":{"fin":-2,"mkt":0,"eff":0,"fut":1,"wealth":0.8266666666666667,"hr":0,"asset":0,"mfg":0,"risk":1,"total":0},"coach":["Q1 is setup only: no sales, no hiring, no production. Stores, web center and printers you ordered come online in Q2.","Ending cash $1,180,000. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0}],"over":false,"bankrupt":false,"lastEquityBook":1240000},"d":{"primary":"Mountain","secondary":"Speed","brands":[{"active":true,"name":"Trailcarve","type":"Rugged","comps":{"frame":"rugged","tires":"mtn","brakes":"disc","gears":"g24","seat":"allp","handlebars":"comfort","suspension":"front","carrier":"none","decals":"color"},"price":1299,"rebate":0,"claims":["incline","terrain","durable","light","repair","colorful"],"media":60000},{"active":false,"name":"Sunday Loop","type":"Comfort","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":999,"rebate":0,"claims":["comfort","easy","safety","simple","price","carry"],"media":35000},{"active":false,"name":"Aero One","type":"Aerodynamic","comps":{"frame":"aero","tires":"race","brakes":"precision","gears":"g14","seat":"race","handlebars":"drop","suspension":"none","carrier":"none","decals":"color"},"price":1580,"rebate":0,"claims":["speed","light","aero","compadv","durable","status"],"media":0}],"openStores":[],"openWeb":false,"staff":{"NYC":{"sales":6,"service":1}},"salesSalary":17000,"prodWage":11000,"buyPrinters":2,"opCap":85,"overtime":0,"forecast":300,"research":true,"rd":0,"vc":0,"bankDraw":0,"bankRepay":0}},"q3rescue":{"g":{"q":3,"cash":422302.0700042322,"printers":3,"pendingPrinters":0,"stores":{"NYC":"open"},"web":"open","designs":["[\"Rugged\",{\"frame\":\"rugged\",\"tires\":\"mtn\",\"brakes\":\"disc\",\"gears\":\"g24\",\"seat\":\"allp\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"none\",\"decals\":\"color\"}]","[\"Comfort\",{\"frame\":\"comfort\",\"tires\":\"hybrid\",\"brakes\":\"std\",\"gears\":\"g14\",\"seat\":\"comfort\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"basket\",\"decals\":\"color\"}]","[\"Aerodynamic\",{\"frame\":\"aero\",\"tires\":\"race\",\"brakes\":\"precision\",\"gears\":\"g14\",\"seat\":\"race\",\"handlebars\":\"drop\",\"suspension\":\"none\",\"carrier\":\"none\",\"decals\":\"color\"}]"],"adKeys":["incline,terrain,durable,light,repair,colorful","comfort,easy,safety,simple,price,carry","speed,light,aero,compadv,durable,status"],"stock":2000000,"founderShares":20000,"vcShares":0,"sharkShares":0,"re":-1492197.9299957678,"shark":null,"bank":0,"ppe":90000,"accDep":4500,"penalty":0,"cumFuture":354500,"cumNetRev":1207459,"history":[{"q":1,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":0,"sold":0,"revenue":0},{"name":"Sunday Loop","type":"Comfort","price":999,"rebate":0,"matCost":312,"bj":{"Recreation":97,"Mountain":19,"Speed":13},"pj":{"Recreation":85.45454545454545,"Mountain":100,"Speed":100},"aj":{"Recreation":69.45461406543771,"Mountain":47.27731310870833,"Speed":46.44762974968289},"demand":0,"sold":0,"revenue":0},{"name":"Aero One","type":"Aerodynamic","price":1580,"rebate":0,"matCost":354,"bj":{"Recreation":13,"Mountain":11,"Speed":97},"pj":{"Recreation":1,"Mountain":53.87362637362637,"Speed":88},"aj":{"Recreation":53.713355809943046,"Mountain":61.540469503311755,"Speed":74.45020794903269},"demand":0,"sold":0,"revenue":0}],"locs":[],"demand":0,"produced":0,"stockouts":0,"capability":0,"forecast":0,"revenue":0,"rebates":0,"netRev":0,"cogs":0,"unitCost":0,"gross":0,"exp":[{"label":"Brand design","amount":90000,"future":false},{"label":"Ad creation","amount":0,"future":false},{"label":"Media","amount":0,"future":false},{"label":"Sales and service salaries","amount":0,"future":false},{"label":"Store and web leases","amount":0,"future":false},{"label":"Store and web setup","amount":350000,"future":true},{"label":"Market research","amount":0,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":0,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":470000,"opProfit":-470000,"interest":0,"ni":-470000,"startCash":0,"equity":1500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":90000,"sharkRepaid":0,"preCash":940000,"loan":0,"rate":0,"sharkShares":0,"endCash":940000,"share":{"Recreation":0,"Mountain":0,"Speed":0},"compShare":[{"name":"Pedal Pushers","units":0},{"name":"Summit Velo","units":0},{"name":"AeroWorks","units":0}],"compInfo":null,"salesProd":0.75,"prodProd":0.7,"score":{"fin":-4,"mkt":0,"eff":0,"fut":1,"wealth":0.6866666666666666,"hr":0,"asset":0,"mfg":0,"risk":1,"total":0},"coach":["Q1 is setup only: no sales, no hiring, no production. Stores, web center and printers you ordered come online in Q2.","Ending cash $940,000. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0},{"q":2,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":302,"sold":302,"revenue":392298},{"name":"Sunday Loop","type":"Comfort","price":999,"rebate":0,"matCost":312,"bj":{"Recreation":97,"Mountain":19,"Speed":13},"pj":{"Recreation":85.45454545454545,"Mountain":100,"Speed":100},"aj":{"Recreation":69.45461406543771,"Mountain":47.27731310870833,"Speed":46.44762974968289},"demand":419,"sold":419,"revenue":418581},{"name":"Aero One","type":"Aerodynamic","price":1580,"rebate":0,"matCost":354,"bj":{"Recreation":13,"Mountain":11,"Speed":97},"pj":{"Recreation":1,"Mountain":53.87362637362637,"Speed":88},"aj":{"Recreation":53.713355809943046,"Mountain":61.540469503311755,"Speed":74.45020794903269},"demand":251,"sold":251,"revenue":396580}],"locs":[{"id":"NYC","name":"New York City","reps":7,"service":0,"demand":546,"perRep":78},{"id":"WEB","name":"Web Sales Center","reps":7,"service":0,"demand":426,"perRep":61}],"demand":972,"produced":972,"stockouts":0,"capability":1789,"forecast":1500,"revenue":1207459,"rebates":0,"netRev":1207459,"cogs":1117156.9299957678,"unitCost":1149.3384053454402,"gross":90302.07000423223,"exp":[{"label":"Brand design","amount":0,"future":false},{"label":"Ad creation","amount":18000,"future":false},{"label":"Media","amount":78000,"future":false},{"label":"Sales and service salaries","amount":840000,"future":false},{"label":"Store and web leases","amount":122000,"future":false},{"label":"Store and web setup","amount":0,"future":true},{"label":"Market research","amount":20000,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":4500,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":1112500,"opProfit":-1022197.9299957678,"interest":0,"ni":-1022197.9299957678,"startCash":940000,"equity":500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":0,"sharkRepaid":0,"preCash":422302.0700042322,"loan":0,"rate":0,"sharkShares":0,"endCash":422302.0700042322,"share":{"Recreation":71.9263256207873,"Mountain":80.65857675496243,"Speed":63.23690101561087},"compShare":[{"name":"Pedal Pushers","units":163},{"name":"Summit Velo","units":73},{"name":"AeroWorks","units":146}],"compInfo":[{"name":"Pedal Pushers","seg":"Recreation","bj":87,"pj":85.45454545454545,"aj":64,"price":999,"reps":6},{"name":"Summit Velo","seg":"Mountain","bj":89,"pj":79.25824175824175,"aj":70,"price":1349,"reps":7},{"name":"AeroWorks","seg":"Speed","bj":97,"pj":87.0379746835443,"aj":72,"price":1599,"reps":9}],"salesProd":1,"prodProd":0.9,"score":{"fin":-23.184896499788387,"mkt":0.7629245118787487,"eff":0.844274175269767,"fut":3.9359174928506886,"wealth":0.25390103500211614,"hr":0.95,"asset":2.377814253474659,"mfg":0.8147527242246437,"risk":1,"total":0},"coach":["New York City: 546 bikes of demand, about 78 per salesperson.","Web Sales Center: 426 bikes of demand, about 61 per salesperson.","You forecast 1500 and demand came in at 972. That's a big miss. Rebuild the forecast as salespeople times units per salesperson.","Ending cash $422,302. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0}],"over":false,"bankrupt":false,"lastEquityBook":507802.0700042322},"d":{"primary":"Mountain","secondary":"Recreation","brands":[{"active":true,"name":"Trailcarve","type":"Rugged","comps":{"frame":"rugged","tires":"mtn","brakes":"disc","gears":"g24","seat":"allp","handlebars":"comfort","suspension":"front","carrier":"none","decals":"color"},"price":1299,"rebate":0,"claims":["incline","terrain","durable","light","repair","colorful"],"media":53000},{"active":true,"name":"Sunday Loop","type":"Comfort","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":999,"rebate":0,"claims":["comfort","easy","safety","simple","price","carry"],"media":53000},{"active":true,"name":"Aero One","type":"Aerodynamic","comps":{"frame":"aero","tires":"race","brakes":"precision","gears":"g14","seat":"race","handlebars":"drop","suspension":"none","carrier":"none","decals":"color"},"price":1580,"rebate":0,"claims":["speed","light","aero","compadv","durable","status"],"media":53000}],"openStores":["AMS"],"openWeb":false,"staff":{"NYC":{"sales":7,"service":0},"WEB":{"sales":7,"service":0}},"salesSalary":60000,"prodWage":55000,"buyPrinters":3,"opCap":100,"overtime":4,"forecast":1500,"research":true,"rd":0,"vc":0,"bankDraw":0,"bankRepay":0}},"q3comeback":{"g":{"q":3,"cash":1414111,"printers":2,"pendingPrinters":0,"stores":{"AMS":"open"},"web":null,"designs":["[\"Rugged\",{\"frame\":\"comfort\",\"tires\":\"hybrid\",\"brakes\":\"std\",\"gears\":\"g14\",\"seat\":\"comfort\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"basket\",\"decals\":\"color\"}]","",""],"adKeys":["comfort,easy,simple,carry,price,safety,colorful,status","",""],"stock":2000000,"founderShares":20000,"vcShares":0,"sharkShares":0,"re":-528889,"shark":null,"bank":0,"ppe":60000,"accDep":3000,"penalty":0,"cumFuture":139000,"cumNetRev":10150,"history":[{"q":1,"brands":[{"name":"Velocity X","type":"Rugged","price":1450,"rebate":0,"matCost":327,"bj":{"Recreation":67,"Mountain":49,"Speed":13},"pj":{"Recreation":1,"Mountain":68.15934065934066,"Speed":94.58227848101265},"aj":{"Recreation":62.39031168224756,"Mountain":44.83961394703544,"Speed":42.12116182603033},"demand":0,"sold":0,"revenue":0}],"locs":[],"demand":0,"produced":0,"stockouts":0,"capability":0,"forecast":0,"revenue":0,"rebates":0,"netRev":0,"cogs":0,"unitCost":0,"gross":0,"exp":[{"label":"Brand design","amount":30000,"future":false},{"label":"Ad creation","amount":0,"future":false},{"label":"Media","amount":0,"future":false},{"label":"Sales and service salaries","amount":0,"future":false},{"label":"Store and web leases","amount":0,"future":false},{"label":"Store and web setup","amount":136000,"future":true},{"label":"Market research","amount":0,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":0,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":196000,"opProfit":-196000,"interest":0,"ni":-196000,"startCash":0,"equity":1500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":60000,"sharkRepaid":0,"preCash":1244000,"loan":0,"rate":0,"sharkShares":0,"endCash":1244000,"share":{"Recreation":0,"Mountain":0,"Speed":0},"compShare":[{"name":"Pedal Pushers","units":0},{"name":"Summit Velo","units":0},{"name":"AeroWorks","units":0}],"compInfo":null,"salesProd":0.75,"prodProd":0.7,"score":{"fin":-2,"mkt":0,"eff":0,"fut":1,"wealth":0.8693333333333333,"hr":0,"asset":0,"mfg":0,"risk":1,"total":0},"coach":["Q1 is setup only: no sales, no hiring, no production. Stores, web center and printers you ordered come online in Q2.","Velocity X: best Brand Judgment is 67 (Recreation). Match the components to that segment's needs.","Velocity X: Price Judgment 1 in Recreation is under 70, so buyers barely consider it. Willingness to pay is $1,100.","Ending cash $1,244,000. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0},{"q":2,"brands":[{"name":"Velocity X","type":"Rugged","price":1450,"rebate":0,"matCost":327,"bj":{"Recreation":67,"Mountain":49,"Speed":13},"pj":{"Recreation":1,"Mountain":68.15934065934066,"Speed":94.58227848101265},"aj":{"Recreation":62.39031168224756,"Mountain":44.83961394703544,"Speed":42.12116182603033},"demand":7,"sold":7,"revenue":10150}],"locs":[{"id":"AMS","name":"Amsterdam","reps":6,"service":1,"demand":7,"perRep":1}],"demand":7,"produced":7,"stockouts":0,"capability":618,"forecast":400,"revenue":10150,"rebates":0,"netRev":10150,"cogs":81039,"unitCost":11577,"gross":-70889,"exp":[{"label":"Brand design","amount":0,"future":false},{"label":"Ad creation","amount":6000,"future":false},{"label":"Media","amount":40000,"future":false},{"label":"Sales and service salaries","amount":119000,"future":false},{"label":"Store and web leases","amount":44000,"future":false},{"label":"Store and web setup","amount":0,"future":true},{"label":"Market research","amount":20000,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":3000,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":262000,"opProfit":-332889,"interest":0,"ni":-332889,"startCash":1244000,"equity":500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":0,"sharkRepaid":0,"preCash":1414111,"loan":0,"rate":0,"sharkShares":0,"endCash":1414111,"share":{"Recreation":3.3219310607694204e-13,"Mountain":4.8894868130819615,"Speed":0.000714688033039819},"compShare":[{"name":"Pedal Pushers","units":163},{"name":"Summit Velo","units":139},{"name":"AeroWorks","units":167}],"compInfo":[{"name":"Pedal Pushers","seg":"Recreation","bj":87,"pj":85.45454545454545,"aj":64,"price":999,"reps":6},{"name":"Summit Velo","seg":"Mountain","bj":89,"pj":79.25824175824175,"aj":70,"price":1349,"reps":7},{"name":"AeroWorks","seg":"Speed","bj":97,"pj":87.0379746835443,"aj":72,"price":1599,"reps":9}],"salesProd":0.75,"prodProd":0.7,"score":{"fin":-10.01945,"mkt":0.024451007505575006,"eff":0.3724019394326644,"fut":137.9458128078818,"wealth":0.7355555,"hr":0.725,"asset":0.00689954734890841,"mfg":0.011326860841423949,"risk":1,"total":0},"coach":["Amsterdam: 7 bikes of demand, about 1 per salesperson.","Factory only used 1% of operating capacity. Idle workers still get paid, so unit cost goes up. Lower operating capacity or sell more.","Velocity X: best Brand Judgment is 67 (Recreation). Match the components to that segment's needs.","Velocity X: Price Judgment 1 in Recreation is under 70, so buyers barely consider it. Willingness to pay is $1,100.","You forecast 400 and demand came in at 7. That's a big miss. Rebuild the forecast as salespeople times units per salesperson.","Ending cash $1,414,111. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0}],"over":false,"bankrupt":false,"lastEquityBook":1471111},"d":{"primary":"Speed","secondary":"Mountain","brands":[{"active":true,"name":"Velocity X","type":"Rugged","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":1450,"rebate":0,"claims":["comfort","easy","simple","carry","price","safety","colorful","status"],"media":40000},{"active":false,"name":"Sunday Loop","type":"Comfort","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":999,"rebate":0,"claims":["comfort","easy","safety","simple","price","carry"],"media":35000},{"active":false,"name":"Aero One","type":"Aerodynamic","comps":{"frame":"aero","tires":"race","brakes":"precision","gears":"g14","seat":"race","handlebars":"drop","suspension":"none","carrier":"none","decals":"color"},"price":1580,"rebate":0,"claims":["speed","light","aero","compadv","durable","status"],"media":0}],"openStores":[],"openWeb":false,"staff":{"AMS":{"sales":6,"service":1}},"salesSalary":17000,"prodWage":11000,"buyPrinters":0,"opCap":85,"overtime":0,"forecast":400,"research":true,"rd":0,"vc":0,"bankDraw":0,"bankRepay":0}},"q4vc":{"g":{"q":4,"cash":1409491.3314296934,"printers":9,"pendingPrinters":0,"stores":{"NYC":"open","AMS":"open","RIO":"open"},"web":null,"designs":["[\"Rugged\",{\"frame\":\"rugged\",\"tires\":\"mtn\",\"brakes\":\"disc\",\"gears\":\"g24\",\"seat\":\"allp\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"none\",\"decals\":\"color\"}]","[\"Comfort\",{\"frame\":\"comfort\",\"tires\":\"hybrid\",\"brakes\":\"std\",\"gears\":\"g14\",\"seat\":\"comfort\",\"handlebars\":\"comfort\",\"suspension\":\"front\",\"carrier\":\"basket\",\"decals\":\"color\"}]",""],"adKeys":["incline,terrain,durable,light,repair,colorful","comfort,easy,safety,simple,price,carry",""],"stock":2500000,"founderShares":25000,"vcShares":0,"sharkShares":0,"re":-834008.6685703064,"shark":null,"bank":0,"ppe":270000,"accDep":13500,"penalty":0,"cumFuture":439500,"cumNetRev":1565904,"history":[{"q":1,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":0,"sold":0,"revenue":0},{"name":"Sunday Loop","type":"Comfort","price":999,"rebate":0,"matCost":312,"bj":{"Recreation":97,"Mountain":19,"Speed":13},"pj":{"Recreation":85.45454545454545,"Mountain":100,"Speed":100},"aj":{"Recreation":69.45461406543771,"Mountain":47.27731310870833,"Speed":46.44762974968289},"demand":0,"sold":0,"revenue":0}],"locs":[],"demand":0,"produced":0,"stockouts":0,"capability":0,"forecast":0,"revenue":0,"rebates":0,"netRev":0,"cogs":0,"unitCost":0,"gross":0,"exp":[{"label":"Brand design","amount":60000,"future":false},{"label":"Ad creation","amount":0,"future":false},{"label":"Media","amount":0,"future":false},{"label":"Sales and service salaries","amount":0,"future":false},{"label":"Store and web leases","amount":0,"future":false},{"label":"Store and web setup","amount":200000,"future":true},{"label":"Market research","amount":0,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":0,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":290000,"opProfit":-290000,"interest":0,"ni":-290000,"startCash":0,"equity":1500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":90000,"sharkRepaid":0,"preCash":1120000,"loan":0,"rate":0,"sharkShares":0,"endCash":1120000,"share":{"Recreation":0,"Mountain":0,"Speed":0},"compShare":[{"name":"Pedal Pushers","units":0},{"name":"Summit Velo","units":0},{"name":"AeroWorks","units":0}],"compInfo":null,"salesProd":0.75,"prodProd":0.7,"score":{"fin":-3,"mkt":0,"eff":0,"fut":1,"wealth":0.8066666666666666,"hr":0,"asset":0,"mfg":0,"risk":1,"total":0},"coach":["Q1 is setup only: no sales, no hiring, no production. Stores, web center and printers you ordered come online in Q2.","Ending cash $1,120,000. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0},{"q":2,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":114,"sold":114,"revenue":148086},{"name":"Sunday Loop","type":"Comfort","price":999,"rebate":0,"matCost":312,"bj":{"Recreation":97,"Mountain":19,"Speed":13},"pj":{"Recreation":85.45454545454545,"Mountain":100,"Speed":100},"aj":{"Recreation":69.45461406543771,"Mountain":47.27731310870833,"Speed":46.44762974968289},"demand":157,"sold":157,"revenue":156843}],"locs":[{"id":"NYC","name":"New York City","reps":6,"service":1,"demand":272,"perRep":43}],"demand":271,"produced":271,"stockouts":0,"capability":928,"forecast":280,"revenue":304929,"rebates":0,"netRev":304929,"cogs":261493.60603746105,"unitCost":964.9210554887861,"gross":43435.39396253895,"exp":[{"label":"Brand design","amount":0,"future":false},{"label":"Ad creation","amount":12000,"future":false},{"label":"Media","amount":70000,"future":false},{"label":"Sales and service salaries","amount":119000,"future":false},{"label":"Store and web leases","amount":62000,"future":false},{"label":"Store and web setup","amount":136000,"future":true},{"label":"Market research","amount":20000,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":4500,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":453500,"opProfit":-410064.6060374611,"interest":0,"ni":-410064.6060374611,"startCash":1120000,"equity":500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":90000,"sharkRepaid":0,"preCash":1124435.393962539,"loan":0,"rate":0,"sharkShares":0,"endCash":1124435.393962539,"share":{"Recreation":49.001062934985654,"Mountain":63.68594920876238,"Speed":0.03654424896262879},"compShare":[{"name":"Pedal Pushers","units":163},{"name":"Summit Velo","units":65},{"name":"AeroWorks","units":167}],"compInfo":[{"name":"Pedal Pushers","seg":"Recreation","bj":87,"pj":85.45454545454545,"aj":64,"price":999,"reps":6},{"name":"Summit Velo","seg":"Mountain","bj":89,"pj":79.25824175824175,"aj":70,"price":1349,"reps":7},{"name":"AeroWorks","seg":"Speed","bj":97,"pj":87.0379746835443,"aj":72,"price":1599,"reps":9}],"salesProd":0.75,"prodProd":0.7,"score":{"fin":-5.653230301873053,"mkt":0.5634350607187402,"eff":0.844274175269767,"fut":12.166533848863178,"wealth":0.6499676969812694,"hr":0.725,"asset":0.23457242676537762,"mfg":0.2920258620689655,"risk":1,"total":0},"coach":["New York City: 272 bikes of demand, about 43 per salesperson.","Factory only used 29% of operating capacity. Idle workers still get paid, so unit cost goes up. Lower operating capacity or sell more.","You forecast 280 and demand came in at 271. Pretty close.","Ending cash $1,124,435. $500,000 more founder equity arrives next quarter."],"bankrupt":false,"founderPct":1,"creditLimit":0},{"q":3,"brands":[{"name":"Trailcarve","type":"Rugged","price":1299,"rebate":0,"matCost":374,"bj":{"Recreation":19,"Mountain":97,"Speed":11},"pj":{"Recreation":17.272727272727266,"Mountain":84.75274725274726,"Speed":100},"aj":{"Recreation":59.07109590369079,"Mountain":74.2550560424691,"Speed":61.072238565192634},"demand":457,"sold":457,"revenue":593643},{"name":"Sunday Loop","type":"Comfort","price":999,"rebate":0,"matCost":312,"bj":{"Recreation":97,"Mountain":19,"Speed":13},"pj":{"Recreation":85.45454545454545,"Mountain":100,"Speed":100},"aj":{"Recreation":69.45461406543771,"Mountain":47.27731310870833,"Speed":46.44762974968289},"demand":668,"sold":668,"revenue":667332}],"locs":[{"id":"NYC","name":"New York City","reps":6,"service":1,"demand":526,"perRep":83},{"id":"AMS","name":"Amsterdam","reps":6,"service":1,"demand":600,"perRep":95}],"demand":1125,"produced":1125,"stockouts":0,"capability":1856,"forecast":1100,"revenue":1260975,"rebates":0,"netRev":1260975,"cogs":751919.0625328453,"unitCost":668.3725000291959,"gross":509055.9374671547,"exp":[{"label":"Brand design","amount":0,"future":false},{"label":"Ad creation","amount":0,"future":false},{"label":"Media","amount":150000,"future":false},{"label":"Sales and service salaries","amount":238000,"future":false},{"label":"Store and web leases","amount":106000,"future":false},{"label":"Store and web setup","amount":90000,"future":true},{"label":"Market research","amount":20000,"future":false},{"label":"R&D","amount":0,"future":true},{"label":"Depreciation","amount":9000,"future":true},{"label":"Admin","amount":30000,"future":false}],"totalExp":643000,"opProfit":-133944.0625328453,"interest":0,"ni":-133944.0625328453,"startCash":1124435.393962539,"equity":500000,"vc":0,"vcShares":0,"bankDraw":0,"bankRepay":0,"capex":90000,"sharkRepaid":0,"preCash":1409491.3314296934,"loan":0,"rate":0,"sharkShares":0,"endCash":1409491.3314296934,"share":{"Recreation":55.649434660729334,"Mountain":67.98321378032112,"Speed":0.003987980029162734},"compShare":[{"name":"Pedal Pushers","units":531},{"name":"Summit Velo","units":216},{"name":"AeroWorks","units":704}],"compInfo":[{"name":"Pedal Pushers","seg":"Recreation","bj":87,"pj":85.45454545454545,"aj":64,"price":999,"reps":13},{"name":"Summit Velo","seg":"Mountain","bj":89,"pj":79.25824175824175,"aj":70,"price":1349,"reps":13},{"name":"AeroWorks","seg":"Speed","bj":97,"pj":87.0379746835443,"aj":72,"price":1599,"reps":18}],"salesProd":0.75,"prodProd":0.7,"score":{"fin":9.482237498686187,"mkt":0.6181632422052523,"eff":0.844274175269767,"fut":3.806685467308341,"wealth":0.6663965325718775,"hr":0.725,"asset":0.7568916933786666,"mfg":0.6061422413793104,"risk":1,"total":4.175644622914641},"coach":["New York City: 526 bikes of demand, about 83 per salesperson.","Amsterdam: 600 bikes of demand, about 95 per salesperson.","You forecast 1100 and demand came in at 1125. Pretty close.","Ending cash $1,409,491. Q4 brings the VC pitch and a bank credit line.","Total Performance 4.18. Every factor multiplies, so a weak one drags the whole score."],"bankrupt":false,"founderPct":1,"creditLimit":2498986.9971445403}],"over":false,"bankrupt":false,"lastEquityBook":1665991.3314296936},"d":{"primary":"Mountain","secondary":"Recreation","brands":[{"active":true,"name":"Trailcarve","type":"Rugged","comps":{"frame":"rugged","tires":"mtn","brakes":"disc","gears":"g24","seat":"allp","handlebars":"comfort","suspension":"front","carrier":"none","decals":"color"},"price":1299,"rebate":0,"claims":["incline","terrain","durable","light","repair","colorful"],"media":120000},{"active":true,"name":"Sunday Loop","type":"Comfort","comps":{"frame":"comfort","tires":"hybrid","brakes":"std","gears":"g14","seat":"comfort","handlebars":"comfort","suspension":"front","carrier":"basket","decals":"color"},"price":999,"rebate":0,"claims":["comfort","easy","safety","simple","price","carry"],"media":120000},{"active":false,"name":"Aero One","type":"Aerodynamic","comps":{"frame":"aero","tires":"race","brakes":"precision","gears":"g14","seat":"race","handlebars":"drop","suspension":"none","carrier":"none","decals":"color"},"price":1580,"rebate":0,"claims":["speed","light","aero","compadv","durable","status"],"media":0}],"openStores":["BLR"],"openWeb":false,"staff":{"NYC":{"sales":12,"service":2},"AMS":{"sales":12,"service":2},"RIO":{"sales":8,"service":1}},"salesSalary":17000,"prodWage":11000,"buyPrinters":7,"opCap":85,"overtime":0,"forecast":3000,"research":true,"rd":400000,"vc":1500000,"bankDraw":0,"bankRepay":0}}};</script>
+<script>var MP = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+  var engine_exports = {};
+  __export(engine_exports, {
+    AD_LIMIT: () => AD_LIMIT,
+    BIKE_TYPES: () => BIKE_TYPES,
+    C: () => C,
+    CITIES: () => CITIES,
+    CLAIMS: () => CLAIMS,
+    COMPONENTS: () => COMPONENTS,
+    COMPS: () => COMPS,
+    EQUITY: () => EQUITY,
+    IDEAL: () => IDEAL,
+    MAX_NEW_STORES: () => MAX_NEW_STORES,
+    MAX_PRINTERS: () => MAX_PRINTERS,
+    MAX_REPS: () => MAX_REPS,
+    PRICE_SENS: () => PRICE_SENS,
+    SEGS: () => SEGS,
+    TYPE_FRAME: () => TYPE_FRAME,
+    WEB: () => WEB,
+    WTP: () => WTP,
+    adJudgment: () => adJudgment,
+    brandJudgment: () => brandJudgment,
+    creditLimit: () => creditLimit,
+    defaultDec: () => defaultDec,
+    finalCheck: () => finalCheck,
+    matCost: () => matCost,
+    newGame: () => newGame,
+    openLocs: () => openLocs,
+    plan: () => plan,
+    priceJudgment: () => priceJudgment,
+    prodProd: () => prodProd,
+    run: () => run,
+    salesProd: () => salesProd,
+    scaleSavings: () => scaleSavings,
+    sharesTotal: () => sharesTotal,
+    vcPrice: () => vcPrice
+  });
+  const SEGS = ["Recreation", "Mountain", "Speed"];
+  const BIKE_TYPES = ["Comfort", "Rugged", "Aerodynamic"];
+  const CITIES = [
+    { id: "NYC", name: "New York City", region: "North America", setup: 2e5, lease: 62e3, pot: { Recreation: 5114, Mountain: 4757, Speed: 3826 } },
+    { id: "RIO", name: "Rio de Janeiro", region: "Latin America", setup: 9e4, lease: 17e3, pot: { Recreation: 4194, Mountain: 3177, Speed: 1942 } },
+    { id: "AMS", name: "Amsterdam", region: "Europe, Middle East and Africa", setup: 136e3, lease: 44e3, pot: { Recreation: 5468, Mountain: 3447, Speed: 3659 } },
+    { id: "BLR", name: "Bangalore", region: "Asia/Pacific", setup: 84e3, lease: 13e3, pot: { Recreation: 3491, Mountain: 2439, Speed: 2447 } }
+  ];
+  const WEB = { setup: 15e4, lease: 6e4 };
+  const WTP = { Recreation: 1100, Mountain: 1365, Speed: 1580 };
+  const PRICE_SENS = { Recreation: 2.5, Mountain: 1.5, Speed: 0.8 };
+  const EQUITY = [0, 15e5, 5e5, 5e5, 0];
+  const C = {
+    brandDesign: 3e4,
+    // S (Chegg screen: cost to design/modify brand)
+    adCreate: 6e3,
+    // S
+    printer: 3e4,
+    printerUnits: 520,
+    // S
+    printerDep: 1500,
+    // E per quarter
+    salesAvg: 17e3,
+    prodAvg: 11e3,
+    // E quarterly industry average pay
+    unitsPerWorker: 130,
+    // E
+    overhead100: 250,
+    // E production overhead per bike at 100 units
+    admin: 3e4,
+    // E
+    research: 2e4,
+    // E market research bundle
+    bankRate: 0.03,
+    // E per quarter
+    fixedParts: 37
+    // S base 15 + carbon 13 + reflectors 9
+  };
+  const AD_LIMIT = [0, 0, 8e4, 16e4, Infinity];
+  const MAX_REPS = [0, 0, 7, 7, 20];
+  const MAX_PRINTERS = [0, 3, 3, 3, 7];
+  const MAX_NEW_STORES = [0, 1, 1, 1, 4];
+  const COMPONENTS = [
+    { key: "frame", label: "Bike frame", weight: 30, options: [
+      { id: "comfort", label: "Relaxed comfort", cost: 150, s: false },
+      { id: "rugged", label: "Rugged agile, rough terrain", cost: 165, s: true },
+      { id: "aero", label: "Sleek aerodynamic", cost: 185, s: false }
+    ] },
+    { key: "tires", label: "Tires", weight: 14, options: [
+      { id: "hybrid", label: "Hybrid road and off-road", cost: 11, s: true },
+      { id: "mtn", label: "Mountain high grip", cost: 20, s: true },
+      { id: "race", label: "Racing fast", cost: 24, s: false }
+    ] },
+    { key: "brakes", label: "Brakes", weight: 10, options: [
+      { id: "std", label: "Standard", cost: 10, s: true },
+      { id: "precision", label: "Precision", cost: 30, s: true },
+      { id: "disc", label: "Standard disc", cost: 47, s: true }
+    ] },
+    { key: "gears", label: "Gears", weight: 10, options: [
+      { id: "g7", label: "7 speed", cost: 18, s: true },
+      { id: "g14", label: "14 speed", cost: 45, s: true },
+      { id: "g24", label: "24 speed", cost: 60, s: true }
+    ] },
+    { key: "seat", label: "Seat", weight: 6, options: [
+      { id: "allp", label: "Polymer gel all-purpose", cost: 9, s: true },
+      { id: "comfort", label: "Polymer gel comfort", cost: 13, s: true },
+      { id: "race", label: "Polymer gel racing", cost: 15, s: false }
+    ] },
+    { key: "handlebars", label: "Handlebars", weight: 8, options: [
+      { id: "basic", label: "Basic straight", cost: 7, s: true },
+      { id: "comfort", label: "Comfort straight", cost: 12, s: true },
+      { id: "drop", label: "Basic drop-down", cost: 10, s: false }
+    ] },
+    { key: "suspension", label: "Suspension", weight: 8, options: [
+      { id: "none", label: "None", cost: 0, s: true },
+      { id: "front", label: "Front", cost: 16, s: true }
+    ] },
+    { key: "carrier", label: "Carrier", weight: 8, options: [
+      { id: "none", label: "None", cost: 0, s: false },
+      { id: "basket", label: "Plastic basket", cost: 10, s: false }
+    ] },
+    { key: "decals", label: "Decals", weight: 6, options: [
+      { id: "none", label: "None", cost: 0, s: true },
+      { id: "color", label: "Colorful thin brushstrokes", cost: 8, s: true }
+    ] }
+  ];
+  const TYPE_FRAME = { Comfort: "comfort", Rugged: "rugged", Aerodynamic: "aero" };
+  const IDEAL = {
+    Recreation: { frame: "comfort", tires: "hybrid", brakes: "std", gears: "g14", seat: "comfort", handlebars: "comfort", suspension: "front", carrier: "basket", decals: "color" },
+    Mountain: { frame: "rugged", tires: "mtn", brakes: "disc", gears: "g24", seat: "allp", handlebars: "comfort", suspension: "front", carrier: "none", decals: "color" },
+    Speed: { frame: "aero", tires: "race", brakes: "precision", gears: "g14", seat: "race", handlebars: "drop", suspension: "none", carrier: "none", decals: "color" }
+  };
+  const CLAIMS = [
+    { id: "light", label: "Light weight", need: { Recreation: 115, Mountain: 121, Speed: 133 } },
+    { id: "speed", label: "Speed", need: { Recreation: 110, Mountain: 109, Speed: 134 } },
+    { id: "aero", label: "Aerodynamic", need: { Recreation: 80, Mountain: 88, Speed: 122 } },
+    { id: "compadv", label: "Competitive advantage", need: { Recreation: 98, Mountain: 117, Speed: 124 } },
+    { id: "comfort", label: "Comfortable", need: { Recreation: 124, Mountain: 95, Speed: 101 } },
+    { id: "easy", label: "Easy to ride", need: { Recreation: 124, Mountain: 100, Speed: 102 } },
+    { id: "simple", label: "Simple to use", need: { Recreation: 121, Mountain: 102, Speed: 69 } },
+    { id: "safety", label: "Safety", need: { Recreation: 121, Mountain: 112, Speed: 113 } },
+    { id: "terrain", label: "Handles rough terrain", need: { Recreation: 111, Mountain: 128, Speed: 87 } },
+    { id: "incline", label: "Easily handles incline", need: { Recreation: 107, Mountain: 131, Speed: 113 } },
+    { id: "durable", label: "Durable", need: { Recreation: 108, Mountain: 127, Speed: 117 } },
+    { id: "price", label: "Low price point", need: { Recreation: 117, Mountain: 98, Speed: 70 } },
+    { id: "carry", label: "Can carry things", need: { Recreation: 117, Mountain: 104, Speed: 69 } },
+    { id: "repair", label: "Repair and support nearby", need: { Recreation: 119, Mountain: 121, Speed: 120 } },
+    { id: "status", label: "Status symbol", need: { Recreation: 117, Mountain: 121, Speed: 116 } },
+    { id: "colorful", label: "Colorful", need: { Recreation: 116, Mountain: 120, Speed: 109 } }
+  ];
+  const SCALE = [[100, 0], [250, 0.26], [500, 0.42], [1e3, 0.49], [5e3, 0.58]];
+  function scaleSavings(u) {
+    if (u <= 100) return 0;
+    for (let i = 1; i < SCALE.length; i++) {
+      const [x1, y1] = SCALE[i];
+      const [x0, y0] = SCALE[i - 1];
+      if (u <= x1) return y0 + (y1 - y0) * (Math.log(u / x0) / Math.log(x1 / x0));
+    }
+    return 0.58;
+  }
+  const COMPS = [
+    {
+      name: "Pedal Pushers",
+      focus: "Recreation",
+      type: "Comfort",
+      comps: { ...IDEAL.Recreation, gears: "g7" },
+      price: 999,
+      aj: 64,
+      media: 45e3,
+      locs: [{}, {}, { RIO: 6 }, { RIO: 7, NYC: 6 }, { RIO: 10, NYC: 10, BLR: 8 }]
+    },
+    {
+      name: "Summit Velo",
+      focus: "Mountain",
+      type: "Rugged",
+      comps: { ...IDEAL.Mountain, suspension: "none" },
+      price: 1349,
+      aj: 70,
+      media: 6e4,
+      locs: [{}, {}, { NYC: 7 }, { NYC: 7, AMS: 6 }, { NYC: 12, AMS: 10, WEB: 6 }]
+    },
+    {
+      name: "AeroWorks",
+      focus: "Speed",
+      type: "Aerodynamic",
+      comps: { ...IDEAL.Speed },
+      price: 1599,
+      aj: 72,
+      media: 6e4,
+      locs: [{}, {}, { AMS: 5, WEB: 4 }, { AMS: 7, NYC: 5, WEB: 6 }, { AMS: 12, NYC: 10, WEB: 10 }]
+    }
+  ];
+  const newGame = () => ({
+    q: 1,
+    cash: 0,
+    printers: 0,
+    pendingPrinters: 0,
+    stores: {},
+    web: null,
+    designs: ["", "", ""],
+    adKeys: ["", "", ""],
+    stock: 0,
+    founderShares: 0,
+    vcShares: 0,
+    sharkShares: 0,
+    re: 0,
+    shark: null,
+    bank: 0,
+    ppe: 0,
+    accDep: 0,
+    penalty: 0,
+    cumFuture: 0,
+    cumNetRev: 0,
+    history: [],
+    over: false,
+    bankrupt: false,
+    lastEquityBook: 0
+  });
+  const defaultDec = () => ({
+    primary: "Mountain",
+    secondary: "Recreation",
+    brands: [
+      { active: true, name: "Trailcarve", type: "Rugged", comps: { ...IDEAL.Mountain }, price: 1299, rebate: 0, claims: ["incline", "terrain", "durable", "light", "repair", "colorful"], media: 35e3 },
+      { active: true, name: "Sunday Loop", type: "Comfort", comps: { ...IDEAL.Recreation }, price: 999, rebate: 0, claims: ["comfort", "easy", "safety", "simple", "price", "carry"], media: 35e3 },
+      { active: false, name: "Aero One", type: "Aerodynamic", comps: { ...IDEAL.Speed }, price: 1580, rebate: 0, claims: ["speed", "light", "aero", "compadv", "durable", "status"], media: 0 }
+    ],
+    openStores: ["NYC"],
+    openWeb: false,
+    staff: {},
+    salesSalary: 17e3,
+    prodWage: 11e3,
+    buyPrinters: 2,
+    opCap: 85,
+    overtime: 0,
+    forecast: 0,
+    research: false,
+    rd: 0,
+    vc: 0,
+    bankDraw: 0,
+    bankRepay: 0
+  });
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  const matCost = (b) => {
+    let c = C.fixedParts;
+    COMPONENTS.forEach((k) => {
+      const id = k.key === "frame" ? TYPE_FRAME[b.type] : b.comps[k.key];
+      const o = k.options.find((x) => x.id === id);
+      if (o) c += o.cost;
+    });
+    return c;
+  };
+  function brandJudgment(b, s) {
+    let p = 0;
+    COMPONENTS.forEach((k) => {
+      const id = k.key === "frame" ? TYPE_FRAME[b.type] : b.comps[k.key];
+      if (id !== IDEAL[s][k.key]) p += k.weight;
+    });
+    return clamp(97 - p, 1, 100);
+  }
+  function priceJudgment(price, rebate, s) {
+    const r = rebate <= 300 ? rebate : 300 + (rebate - 300) * 0.3;
+    const net = price - r;
+    return clamp(100 - PRICE_SENS[s] * Math.max(0, (net - 0.85 * WTP[s]) / WTP[s] * 100), 1, 100);
+  }
+  function adJudgment(claims, s) {
+    const n = claims.length;
+    if (n === 0) return 0;
+    let w = 0, t = 0;
+    claims.forEach((id, i) => {
+      const c = CLAIMS.find((x) => x.id === id);
+      if (!c) return;
+      const wt = 1 / (1 + 0.15 * i);
+      w += wt;
+      t += wt * clamp((c.need[s] - 95) / 40, 0, 1);
+    });
+    return clamp(40 + 45 * (t / w) * Math.min(1, n / 5) - 6 * Math.max(0, n - 7), 1, 90);
+  }
+  const f = (x) => x >= 70 ? Math.exp((x - 70) / 20) : Math.pow(x / 70, 4);
+  const PER_REP = [0, 0, 80, 170, 270];
+  const MKT_CAP = [0, 0, 0.6, 1, 1.8];
+  function salesProd(salary) {
+    return clamp(0.75 + 0.8 * (salary / C.salesAvg - 1), 0.5, 1);
+  }
+  function prodProd(wage) {
+    return clamp(0.7 + 0.8 * (wage / C.prodAvg - 1), 0.55, 0.9);
+  }
+  const sharesTotal = (g) => g.founderShares + g.vcShares + g.sharkShares;
+  const creditLimit = (g) => g.q >= 4 ? Math.max(0, 1.5 * g.lastEquityBook) : 0;
+  const vcPrice = (g) => g.stock > 0 ? clamp(100 * ((g.stock + g.re) / g.stock), 50, 200) : 100;
+  function openLocs(g) {
+    const l = CITIES.filter((c) => g.stores[c.id] === "open").map((c) => c.id);
+    if (g.web === "open") l.push("WEB");
+    return l;
+  }
+  function plan(g, d) {
+    const q = g.q;
+    const active = d.brands.map((b, i) => ({ b, i })).filter((x) => x.b.active);
+    let design = 0, adCreate = 0, media = 0;
+    active.forEach(({ b, i }) => {
+      if (JSON.stringify([b.type, b.comps]) !== g.designs[i]) design += C.brandDesign;
+      if (q >= 2 && b.media > 0 && b.claims.length && b.claims.join(",") !== g.adKeys[i]) adCreate += C.adCreate;
+      if (q >= 2) media += b.media;
+    });
+    const newStores = d.openStores.filter((id) => !g.stores[id]);
+    const setup = newStores.reduce((a, id) => a + (CITIES.find((c) => c.id === id)?.setup || 0), 0) + (d.openWeb && !g.web ? WEB.setup : 0);
+    const lease = CITIES.filter((c) => g.stores[c.id] === "open").reduce((a, c) => a + c.lease, 0) + (g.web === "open" ? WEB.lease : 0);
+    const locs = openLocs(g);
+    let reps = 0, svc = 0;
+    if (q >= 2) locs.forEach((l) => {
+      const s = d.staff[l] || { sales: 0, service: 0 };
+      reps += s.sales;
+      svc += l === "WEB" ? 0 : s.service;
+    });
+    const salaries = (reps + svc) * d.salesSalary;
+    const fixedCap = g.printers * C.printerUnits;
+    const opUnits = q >= 2 ? fixedCap * clamp(d.opCap, 0, 100) / 100 : 0;
+    const workers = Math.ceil(opUnits / C.unitsPerWorker);
+    const labor = workers * d.prodWage;
+    const pp = prodProd(d.prodWage) * (d.opCap > 90 ? 1 - (d.opCap - 90) / 100 * 1.5 : 1);
+    const regularCap = Math.floor(opUnits * pp);
+    const capability = Math.floor(regularCap * (1 + clamp(d.overtime, 0, 4) / 8));
+    const capex = d.buyPrinters * C.printer;
+    const research = d.research ? C.research : 0;
+    const rd = q >= 4 ? d.rd : 0;
+    const dep = g.printers * C.printerDep;
+    const sharkDue = g.shark ? g.shark.amount * (1 + g.shark.rate) : 0;
+    const equity = EQUITY[q] || 0;
+    const vc = q === 4 ? d.vc : 0;
+    const bankDraw = q >= 4 ? d.bankDraw : 0;
+    const bankRepay = q >= 4 ? Math.min(d.bankRepay, g.bank) : 0;
+    const bankInt = g.bank * C.bankRate;
+    const avgPrice = active.length ? active.reduce((a, x) => a + x.b.price - x.b.rebate * 0.5, 0) / active.length : 0;
+    const avgMat = active.length ? active.reduce((a, x) => a + matCost(x.b), 0) / active.length : 0;
+    const fc = q >= 2 ? Math.min(d.forecast, capability) : 0;
+    const fcRev = fc * avgPrice;
+    const fcVarCost = fc * (avgMat + C.overhead100 * (1 - scaleSavings(fc)));
+    const cashOut = design + adCreate + media + setup + lease + salaries + labor + capex + research + rd + C.admin + sharkDue + bankRepay + bankInt;
+    const proForma = g.cash + equity + vc + bankDraw + fcRev - fcVarCost - cashOut;
+    return { design, adCreate, media, setup, newStores, lease, reps, svc, salaries, fixedCap, opUnits, workers, labor, pp, regularCap, capability, capex, research, rd, dep, sharkDue, equity, vc, bankDraw, bankRepay, bankInt, cashOut, fcRev, fcVarCost, proForma, avgPrice };
+  }
+  function finalCheck(g, d) {
+    const q = g.q;
+    const p = plan(g, d);
+    const fatal = [];
+    const warn = [];
+    if (p.newStores.length + (d.openWeb && !g.web ? 0 : 0) > MAX_NEW_STORES[q]) fatal.push(`Auditor: only ${MAX_NEW_STORES[q]} new store(s) this quarter.`);
+    if (d.buyPrinters > MAX_PRINTERS[q]) fatal.push(`Auditor: max ${MAX_PRINTERS[q]} printers this quarter.`);
+    if (q >= 2 && p.media > AD_LIMIT[q]) fatal.push(`Auditor: media spending limit is $${AD_LIMIT[q].toLocaleString()} in Q${q}.`);
+    if (q >= 2) openLocs(g).forEach((l) => {
+      const s = d.staff[l];
+      if (s && s.sales + s.service > MAX_REPS[q]) fatal.push(`Auditor: max ${MAX_REPS[q]} employees per location in Q${q} (${l}).`);
+    });
+    d.brands.forEach((b) => {
+      if (!b.active) return;
+      if (b.price - b.rebate <= 400) fatal.push(`${b.name}: price minus rebate must be above $400.`);
+      if (q === 1 && b.price >= 2100) fatal.push(`${b.name}: price must be under $2,100 in Q1.`);
+      if (b.claims.length > 9) fatal.push(`${b.name}: max 9 ad claims.`);
+      if (b.claims.length > 7) warn.push(`${b.name}: ad has ${b.claims.length} claims. Over 6 or 7 crowds it and lowers Ad Judgment.`);
+    });
+    if (d.primary === d.secondary) warn.push("Primary and secondary segment are the same. Market Performance averages both.");
+    if (q >= 2 && openLocs(g).length === 0) warn.push("No open store or web center this quarter, so you can't sell anything. Stores take one quarter to open.");
+    if (q >= 2 && p.reps === 0) warn.push("No salespeople hired. Demand is salespeople times units per salesperson.");
+    if (q >= 2 && d.forecast > p.capability) warn.push(`Forecast ${d.forecast} is above what the factory can make (${p.capability}). Expect stockouts.`);
+    if (q === 1 && d.buyPrinters === 0) warn.push("No printers ordered. Capacity bought now is what you can produce with in Q2.");
+    if (p.proForma < 0) warn.push("Pro forma ending cash is negative. That means a loan shark loan.");
+    else if (q >= 2 && p.proForma < 3e5) warn.push("Pro forma cash is under the $300k cushion the game recommends.");
+    if (q >= 4 && d.bankDraw > creditLimit(g) - g.bank) fatal.push(`Bank: credit line available is $${Math.round(creditLimit(g) - g.bank).toLocaleString()}.`);
+    if (q === 4 && d.vc > 25e5) fatal.push("VCs invest up to $2.5M.");
+    return { fatal, warn };
+  }
+  function run(g0, d) {
+    const g = JSON.parse(JSON.stringify(g0));
+    const q = g.q;
+    const p = plan(g, d);
+    const locs = q >= 2 ? openLocs(g) : [];
+    const sp = salesProd(d.salesSalary);
+    const pp = prodProd(d.prodWage);
+    const active = d.brands.filter((b) => b.active);
+    const bo = active.map((b) => ({
+      name: b.name,
+      type: b.type,
+      price: b.price,
+      rebate: b.rebate,
+      matCost: matCost(b),
+      bj: { Recreation: brandJudgment(b, "Recreation"), Mountain: brandJudgment(b, "Mountain"), Speed: brandJudgment(b, "Speed") },
+      pj: { Recreation: priceJudgment(b.price, b.rebate, "Recreation"), Mountain: priceJudgment(b.price, b.rebate, "Mountain"), Speed: priceJudgment(b.price, b.rebate, "Speed") },
+      aj: { Recreation: adJudgment(b.claims, "Recreation"), Mountain: adJudgment(b.claims, "Mountain"), Speed: adJudgment(b.claims, "Speed") },
+      demand: 0,
+      sold: 0,
+      revenue: 0
+    }));
+    const aware = (m) => 1 - Math.exp(-m / 5e4);
+    const attract = (bj, pj, aj, media) => f(bj) * f(pj) * (0.55 + 0.45 * aware(media) * Math.min(1.15, aj / 75));
+    const compSales = {};
+    COMPS.forEach((c) => {
+      compSales[c.name] = 0;
+    });
+    const segUnits = { Recreation: 0, Mountain: 0, Speed: 0 };
+    const segTotal = { Recreation: 0, Mountain: 0, Speed: 0 };
+    const locOut = [];
+    let demand = 0;
+    const allLocIds = ["NYC", "RIO", "AMS", "BLR", "WEB"];
+    if (q >= 2) allLocIds.forEach((L) => {
+      const isWeb = L === "WEB";
+      const city = CITIES.find((c) => c.id === L);
+      const pot = { Recreation: 0, Mountain: 0, Speed: 0 };
+      SEGS.forEach((s) => {
+        pot[s] = isWeb ? CITIES.reduce((a, c) => a + c.pot[s], 0) * 0.15 : city ? city.pot[s] : 0;
+      });
+      const potT = SEGS.reduce((a, s) => a + pot[s], 0);
+      const mine = locs.includes(L);
+      const st = d.staff[L] || { sales: 0, service: 0 };
+      const myEff = mine ? Math.pow(st.sales + 0.3 * (isWeb ? 0 : st.service), 0.9) * sp * (isWeb ? 0.8 : 1) : 0;
+      const svcBonus = !isWeb && st.service > 0 ? 3 : 0;
+      const teams = [];
+      if (myEff > 0) {
+        const A = { Recreation: [], Mountain: [], Speed: [] };
+        SEGS.forEach((s) => {
+          active.forEach((b, i) => {
+            A[s].push(attract(Math.min(100, bo[i].bj[s] + svcBonus), bo[i].pj[s], bo[i].aj[s], b.media));
+          });
+        });
+        teams.push({ name: "YOU", eff: myEff * (1 - g.penalty), A });
+      }
+      COMPS.forEach((c) => {
+        const n = c.locs[q][L] || 0;
+        if (!n) return;
+        const A = { Recreation: [], Mountain: [], Speed: [] };
+        SEGS.forEach((s) => {
+          A[s].push(attract(brandJudgment(c, s), priceJudgment(c.price * (q === 4 ? 0.97 : 1), 0, s), c.aj, c.media));
+        });
+        teams.push({ name: c.name, eff: Math.pow(n, 0.9) * 0.78 * (isWeb ? 0.8 : 1), A });
+      });
+      if (!teams.length) return;
+      const raw = [];
+      SEGS.forEach((s) => {
+        const w = pot[s] / potT;
+        const tot = teams.map((t) => t.A[s].reduce((a, x) => a + x, 0));
+        teams.forEach((t, ti) => {
+          const others = tot.reduce((a, x, j) => j === ti ? a : a + x, 0);
+          const rel = tot[ti] / (tot[ti] + 0.6 * others + 0.4);
+          const units = t.eff * PER_REP[q] * w * rel * (tot[ti] / (tot[ti] + 1)) * 1.6;
+          raw.push({ t: ti, s, units, split: t.A[s].map((x) => tot[ti] > 0 ? x / tot[ti] : 0) });
+        });
+        const cap = pot[s] / 4 * MKT_CAP[q];
+        const sum = raw.filter((r) => r.s === s).reduce((a, r) => a + r.units, 0);
+        if (sum > cap) raw.filter((r) => r.s === s).forEach((r) => {
+          r.units *= cap / sum;
+        });
+      });
+      let myLoc = 0;
+      raw.forEach((r) => {
+        const t = teams[r.t];
+        segTotal[r.s] += r.units;
+        if (t.name === "YOU") {
+          myLoc += r.units;
+          segUnits[r.s] += r.units;
+          r.split.forEach((x, i) => {
+            bo[i].demand += r.units * x;
+          });
+        } else compSales[t.name] += r.units;
+      });
+      if (mine) {
+        locOut.push({ id: L, name: isWeb ? "Web Sales Center" : city ? city.name : L, reps: st.sales, service: isWeb ? 0 : st.service, demand: Math.round(myLoc), perRep: st.sales + 0.3 * st.service > 0 ? Math.round(myLoc / (st.sales + 0.3 * (isWeb ? 0 : st.service))) : 0 });
+        demand += myLoc;
+      }
+    });
+    bo.forEach((b) => {
+      b.demand = Math.round(b.demand);
+    });
+    demand = bo.reduce((a, b) => a + b.demand, 0);
+    const capability = p.capability;
+    const produced = Math.min(demand, capability);
+    const ratio = demand > 0 ? produced / demand : 0;
+    bo.forEach((b) => {
+      b.sold = Math.floor(b.demand * ratio);
+      b.revenue = b.sold * b.price;
+    });
+    const sold = bo.reduce((a, b) => a + b.sold, 0);
+    const stockouts = demand - sold;
+    const revenue = bo.reduce((a, b) => a + b.revenue, 0);
+    const rebates = bo.reduce((a, b) => a + b.sold * b.rebate * (b.rebate <= 300 ? 0.5 : Math.min(0.9, 0.5 + (b.rebate - 300) / 1e3)), 0);
+    const netRev = revenue - rebates;
+    const materials = bo.reduce((a, b) => a + b.sold * b.matCost, 0);
+    const regular = Math.min(sold, p.regularCap);
+    const otUnits = sold - regular;
+    const otCost = otUnits * (d.prodWage / (C.unitsPerWorker * Math.max(pp, 0.3))) * 2;
+    const overhead = sold * C.overhead100 * (1 - scaleSavings(sold));
+    const cogs = q >= 2 ? materials + p.labor + otCost + overhead : 0;
+    const gross = netRev - cogs;
+    const exp = [
+      { label: "Brand design", amount: p.design, future: false },
+      { label: "Ad creation", amount: p.adCreate, future: false },
+      { label: "Media", amount: p.media, future: false },
+      { label: "Sales and service salaries", amount: p.salaries, future: false },
+      { label: "Store and web leases", amount: p.lease, future: false },
+      { label: "Store and web setup", amount: p.setup, future: true },
+      { label: "Market research", amount: p.research, future: false },
+      { label: "R&D", amount: p.rd, future: true },
+      { label: "Depreciation", amount: p.dep, future: true },
+      { label: "Admin", amount: C.admin, future: false }
+    ];
+    const totalExp = exp.reduce((a, e) => a + e.amount, 0);
+    const opProfit = gross - totalExp;
+    const sharkInt = g.shark ? g.shark.amount * g.shark.rate : 0;
+    const interest = sharkInt + p.bankInt;
+    const ni = opProfit - interest;
+    const startCash = g.cash;
+    const vcSh = p.vc > 0 ? p.vc / vcPrice(g) : 0;
+    let pre = startCash + p.equity + p.vc + p.bankDraw - p.bankRepay + netRev - cogs - (totalExp - p.dep) - p.capex - p.bankInt;
+    let sharkRepaid = 0;
+    if (g.shark) {
+      const due = g.shark.amount * (1 + g.shark.rate);
+      sharkRepaid = Math.min(due, Math.max(0, pre - 1));
+      pre -= sharkRepaid;
+      const left = due - sharkRepaid;
+      g.shark = left > 0.5 ? { amount: left, rate: g.shark.rate } : null;
+    }
+    let loan = 0, rate = 0, newShark = 0;
+    if (pre < 0) {
+      loan = Math.ceil(-pre / 1e3) * 1e3;
+      rate = 0.1 + 0.15 * Math.min(1, loan / 15e5);
+      newShark = loan / 100;
+      g.shark = g.shark ? { amount: g.shark.amount + loan, rate: Math.max(rate, g.shark.rate) } : { amount: loan, rate };
+    }
+    const endCash = pre + loan;
+    g.cash = endCash;
+    g.stock += p.equity + p.vc;
+    g.founderShares += p.equity / 100;
+    g.vcShares += vcSh;
+    g.sharkShares += newShark;
+    g.re += ni;
+    g.bank += p.bankDraw - p.bankRepay;
+    g.ppe += p.capex;
+    g.accDep += p.dep;
+    g.cumFuture += p.setup + p.rd + p.dep;
+    g.cumNetRev += netRev;
+    g.printers += d.buyPrinters;
+    g.pendingPrinters = 0;
+    d.openStores.forEach((id) => {
+      g.stores[id] = "open";
+    });
+    if (d.openWeb) g.web = "open";
+    d.brands.forEach((b, i) => {
+      if (b.active) {
+        g.designs[i] = JSON.stringify([b.type, b.comps]);
+        if (q >= 2 && b.media > 0) g.adKeys[i] = b.claims.join(",");
+      }
+    });
+    const soPct = demand > 0 ? stockouts / demand : 0;
+    g.penalty = 0.5 * soPct;
+    const share = { Recreation: 0, Mountain: 0, Speed: 0 };
+    SEGS.forEach((s) => {
+      share[s] = segTotal[s] > 0 ? segUnits[s] * ratio / (segTotal[s] - segUnits[s] * (1 - ratio)) * 100 : 0;
+    });
+    const shares = sharesTotal(g);
+    const fin = (opProfit + p.setup + p.rd + p.dep + gross) / 2 / Math.max(shares, 1);
+    const served = demand > 0 ? (demand - stockouts) / demand : 0;
+    const mkt = (share[d.primary] + share[d.secondary]) / 2 / 100 * served;
+    const best = (fn) => bo.reduce((a, b) => Math.max(a, fn(b)), 0);
+    const eff = bo.length && q >= 2 ? ((best((b) => b.bj[d.primary]) + best((b) => b.bj[d.secondary])) / 2 / 100 + (best((b) => b.aj[d.primary]) + best((b) => b.aj[d.secondary])) / 2 / 100) / 2 : 0;
+    const fut = g.cumNetRev > 0 ? g.cumFuture / g.cumNetRev * 10 + 1 : 1;
+    const netEquity = g.stock + g.re;
+    const wealth = g.stock > 0 ? netEquity / g.stock : 0;
+    const hr = q >= 2 ? (sp + pp) / 2 : 0;
+    const totalAssets = g.cash + g.ppe - g.accDep;
+    const asset = totalAssets > 0 ? netRev / totalAssets : 0;
+    const mfg = q >= 2 && p.regularCap > 0 ? Math.min(1, regular / p.regularCap) - otUnits / p.regularCap / 2 : 0;
+    const debt = g.bank + (g.shark ? g.shark.amount : 0);
+    const risk = netEquity > 0 ? Math.sqrt(netEquity / (netEquity + debt)) : 0;
+    const parts = [fin, mkt, eff, fut, wealth, hr, asset, mfg, risk];
+    const total = parts.some((x) => x <= 0) ? 0 : parts.reduce((a, x) => a * x, 1);
+    const bankrupt = netEquity < 0;
+    const coach = [];
+    if (q === 1) coach.push("Q1 is setup only: no sales, no hiring, no production. Stores, web center and printers you ordered come online in Q2.");
+    if (q >= 2 && locs.length === 0) coach.push("Nothing to sell through yet. A store ordered this quarter opens next quarter.");
+    locOut.forEach((l) => {
+      if (l.reps > 0) coach.push(`${l.name}: ${l.demand} bikes of demand, about ${l.perRep} per salesperson.`);
+    });
+    if (stockouts > 0) coach.push(`You stocked out on ${stockouts} bikes (${Math.round(soPct * 100)}% of demand). Next quarter's demand gets cut by ${Math.round(g.penalty * 100)}% and Market Performance takes a hit. Add printers, operating capacity or overtime.`);
+    if (q >= 2 && p.regularCap > 0 && regular / p.regularCap < 0.6) coach.push(`Factory only used ${Math.round(regular / p.regularCap * 100)}% of operating capacity. Idle workers still get paid, so unit cost goes up. Lower operating capacity or sell more.`);
+    bo.forEach((b, bi) => {
+      const s = d.primary;
+      const top = SEGS.reduce((a, x) => b.bj[x] > b.bj[a] ? x : a, SEGS[0]);
+      if (b.bj[top] < 85) coach.push(`${b.name}: best Brand Judgment is ${Math.round(b.bj[top])} (${top}). Match the components to that segment's needs.`);
+      if (b.pj[top] < 70) coach.push(`${b.name}: Price Judgment ${Math.round(b.pj[top])} in ${top} is under 70, so buyers barely consider it. Willingness to pay is $${WTP[top].toLocaleString()}.`);
+      if (q >= 2 && b.aj[top] < 60 && active[bi].media > 0) coach.push(`${b.name}: Ad Judgment ${Math.round(b.aj[top])}. Lead with what ${top} buyers rate highest.`);
+      void s;
+    });
+    if (q >= 2 && d.forecast > 0) coach.push(`You forecast ${d.forecast} and demand came in at ${demand}. ${Math.abs(d.forecast - demand) > 0.25 * Math.max(demand, 1) ? "That's a big miss. Rebuild the forecast as salespeople times units per salesperson." : "Pretty close."}`);
+    if (sharkRepaid > 0) coach.push(`Paid the loan shark $${Math.round(sharkRepaid).toLocaleString()} this quarter.`);
+    if (loan > 0) coach.push(`Cash went negative, so the loan shark lent $${loan.toLocaleString()} at ${Math.round(rate * 100)}% and took ${Math.round(newShark).toLocaleString()} shares. You repay it next quarter.`);
+    else if (q < 4) coach.push(`Ending cash $${Math.round(endCash).toLocaleString()}. ${q < 3 ? `$${EQUITY[q + 1].toLocaleString()} more founder equity arrives next quarter.` : "Q4 brings the VC pitch and a bank credit line."}`);
+    if (q >= 3) coach.push(total > 0 ? `Total Performance ${total.toFixed(2)}. Every factor multiplies, so a weak one drags the whole score.` : "Total Performance is 0 because at least one factor is zero or negative (often Financial Performance during early losses).");
+    if (bankrupt) coach.push("Bankrupt: retained earnings plus common stock went negative.");
+    const compInfo = d.research && q >= 2 ? COMPS.filter((c) => Object.keys(c.locs[q]).length > 0).map((c) => ({ name: c.name, seg: c.focus, bj: brandJudgment(c, c.focus), pj: priceJudgment(c.price * (q === 4 ? 0.97 : 1), 0, c.focus), aj: c.aj, price: Math.round(c.price * (q === 4 ? 0.97 : 1)), reps: Object.values(c.locs[q]).reduce((a, x) => a + x, 0) })) : null;
+    const res = {
+      q,
+      brands: bo,
+      locs: locOut,
+      demand,
+      produced: sold,
+      stockouts,
+      capability,
+      forecast: d.forecast,
+      revenue,
+      rebates,
+      netRev,
+      cogs,
+      unitCost: sold > 0 ? cogs / sold : 0,
+      gross,
+      exp,
+      totalExp,
+      opProfit,
+      interest,
+      ni,
+      startCash,
+      equity: p.equity,
+      vc: p.vc,
+      vcShares: vcSh,
+      bankDraw: p.bankDraw,
+      bankRepay: p.bankRepay,
+      capex: p.capex,
+      sharkRepaid,
+      preCash: pre,
+      loan,
+      rate,
+      sharkShares: newShark,
+      endCash,
+      share,
+      compShare: COMPS.map((c) => ({ name: c.name, units: Math.round(compSales[c.name]) })),
+      compInfo,
+      salesProd: sp,
+      prodProd: pp,
+      score: { fin, mkt, eff, fut, wealth, hr, asset, mfg, risk, total },
+      coach,
+      bankrupt,
+      founderPct: g.founderShares / Math.max(shares, 1),
+      creditLimit: 0
+    };
+    g.lastEquityBook = netEquity;
+    g.history.push(res);
+    g.q = q + 1;
+    g.bankrupt = bankrupt;
+    g.over = bankrupt || q >= 4;
+    res.creditLimit = creditLimit(g);
+    return g;
+  }
+  return __toCommonJS(engine_exports);
+})();
+</script>
+<script>(function(){
+var E = MP; var KEY = "mp-practice-v1";
+var g = E.newGame(), d = E.defaultDec(), tab = "dec", screen = "goals", msg = "";
+var $ = function(id){ return document.getElementById(id); };
+var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); };
+var money = function(n){ n = Math.round(n||0); return (n<0?"-$":"$") + Math.abs(n).toLocaleString("en-US"); };
+var n0 = function(n){ return Math.round(n||0).toLocaleString("en-US"); };
+var f2 = function(n){ return (n||0).toFixed(2); };
+var EST = '<span class="est" title="Practice estimate, not the real game">est</span>';
+var SRC = '<span class="src" title="From public guides of the real game">real</span>';
+function setPath(path, val){ var k = path.split("."), o = d; for (var i=0;i<k.length-1;i++){ if (o[k[i]] == null) o[k[i]] = {}; o = o[k[i]]; } o[k[k.length-1]] = val; }
+function getPath(path){ var k = path.split("."), o = d; for (var i=0;i<k.length;i++){ if (o == null) return ""; o = o[k[i]]; } return o; }
+function num(path, label, opts){ opts = opts||{}; var v = getPath(path); return '<label class="fld">'+label+(opts.tag||"")+'<input type="number" inputmode="decimal" data-p="'+path+'" data-t="n" value="'+(v==null?0:v)+'"'+(opts.dis?' disabled':'')+(opts.min!=null?' min="'+opts.min+'"':'')+(opts.max!=null?' max="'+opts.max+'"':'')+'></label>'; }
+function sel(path, label, options, dis){ var v = getPath(path); return '<label class="fld">'+label+'<select data-p="'+path+'"'+(dis?' disabled':'')+'>'+options.map(function(o){ var id = typeof o==="string"?o:o.id, lb = typeof o==="string"?o:o.label; return '<option value="'+esc(id)+'"'+(id===v?' selected':'')+'>'+esc(lb)+'</option>'; }).join("")+'</select></label>'; }
+function chk(path, label, dis){ return '<label class="chk"><input type="checkbox" data-p="'+path+'" data-t="b"'+(getPath(path)?' checked':'')+(dis?' disabled':'')+'> '+label+'</label>'; }
+function table(cols, rows, cls){ return '<div class="tw"><table class="'+(cls||"")+'"><thead><tr>'+cols.map(function(c){return '<th>'+c+'</th>';}).join("")+'</tr></thead><tbody>'+rows.map(function(r){ return '<tr>'+r.map(function(c){ return '<td>'+c+'</td>'; }).join("")+'</tr>'; }).join("")+'</tbody></table></div>'; }
+function judge(x){ x = Math.round(x); var c = x>=90?"good":x>=70?"ok":"bad"; return '<span class="j '+c+'">'+x+'</span>'; }
+var SCREENS = [["goals","1. Goals and Strategy"],["brand","2. Marketing: Design Brand"],["price","3. Marketing: Price and Rebate"],["ads","4. Marketing: Ad Content and Media"],["channel","5. Sales Channel"],["hr","6. Human Resources"],["mfg","7. Manufacturing"],["research","8. Market Research"],["finance","9. Finance"],["acct","10. Accounting: Pro Forma"],["submit","11. Final Check and Submit"]];
+function locked(min){ return g.q < min; }
+function lockNote(min){ return locked(min) ? '<p class="lock">Opens in Q'+min+'. In the real game this screen isn\'t used yet in Q'+g.q+'.</p>' : ""; }
+function screenHTML(){
+  var q = g.q, p = E.plan(g, d), h = "";
+  if (screen === "goals") {
+    h += '<h3>Goals and Strategy</h3><p>Pick a primary and secondary segment. Market Performance and Marketing Effectiveness on the scorecard only count these two.</p>';
+    h += '<div class="row">'+sel("primary","Primary segment",E.SEGS)+sel("secondary","Secondary segment",E.SEGS)+'</div>';
+    h += '<h4>Segments '+SRC+'</h4>'+table(["Segment","Who","Willing to pay","12-mo potential (all 4 cities)"], E.SEGS.map(function(s){ return [s, {Recreation:"Fun, a little exercise, short social rides",Mountain:"Off-road trails, adventure, sport",Speed:"Lightest, fastest, most aerodynamic"}[s], money(E.WTP[s]), n0(E.CITIES.reduce(function(a,c){return a+c.pot[s];},0))]; }));
+    h += '<h4>Top customer needs '+SRC+'</h4>'+table(["Need"].concat(E.SEGS), E.CLAIMS.map(function(c){ return [c.label].concat(E.SEGS.map(function(s){ return c.need[s]>=125?'<b>'+c.need[s]+'</b>':c.need[s]; })); }));
+    h += '<p class="note">Scores are importance indexes from the game\'s Customer Needs and Wants report. 100 is average.</p>';
+  }
+  if (screen === "brand") {
+    h += '<h3>Design Brand</h3><p>Each new or changed design costs '+money(E.C.brandDesign)+' '+SRC+'. Brand Judgment 100 means it meets every basic need of that segment; 70 is the minimum to sell '+SRC+'. Match scoring here is a simplified '+EST+'.</p>';
+    d.brands.forEach(function(b, i){
+      var mc = E.matCost(b);
+      h += '<div class="card"><div class="row">'+chk("brands."+i+".active","Brand "+(i+1)+" active")+'<label class="fld">Name<input data-p="brands.'+i+'.name" value="'+esc(b.name)+'"></label>'+sel("brands."+i+".type","Bike type",E.BIKE_TYPES)+'</div><div class="row">';
+      E.COMPONENTS.forEach(function(k){ if (k.key === "frame") return; h += sel("brands."+i+".comps."+k.key, k.label, k.options.map(function(o){ return {id:o.id, label:o.label+" ($"+o.cost+(o.s?"":"*")+")"}; })); });
+      h += '</div><p>Material cost '+money(mc)+' per bike. Brand Judgment: '+E.SEGS.map(function(s){ return s+" "+judge(E.brandJudgment(b,s)); }).join(" &nbsp; ")+'</p></div>';
+    });
+    h += '<p class="note">Component prices from a real Design Brand screen; * = estimated price. Base parts, standard carbon fiber and reflectors add $37.</p>';
+  }
+  if (screen === "price") {
+    h += '<h3>Price and Rebate</h3>'+lockNote(1)+'<p>Price Judgment compares price minus rebate with what each segment will pay. 70 is the minimum, 90+ is very good '+SRC+'. Recreation is the most price sensitive, Speed the least '+SRC+'. Sensitivity numbers '+EST+'.</p>';
+    d.brands.forEach(function(b, i){ if (!b.active) return;
+      h += '<div class="card"><b>'+esc(b.name)+'</b> ('+b.type+')<div class="row">'+num("brands."+i+".price","Price ($)")+num("brands."+i+".rebate","Rebate ($)",{dis:q<2})+'</div><p>Price Judgment: '+E.SEGS.map(function(s){ return s+" "+judge(E.priceJudgment(b.price,b.rebate,s)); }).join(" &nbsp; ")+' &nbsp; Margin over materials '+money(b.price-b.rebate-E.matCost(b))+'</p></div>'; });
+    h += '<p class="note">Rules '+SRC+': price minus rebate must be over $400; Q1 price must be under $2,100. About half of buyers claim a $100 to $300 rebate.</p>';
+  }
+  if (screen === "ads") {
+    h += '<h3>Ad Content and Media</h3>'+lockNote(2)+'<p>Click claims in priority order. 6 or 7 is the sweet spot; over 7 crowds the ad '+SRC+'. Each new or changed ad costs '+money(E.C.adCreate)+' '+SRC+'. Media limit '+(q<=3&&q>=2?money(E.AD_LIMIT[q]):"none")+' this quarter '+SRC+'. Ad Judgment over 80 is very good '+SRC+'; how claims score here is '+EST+'.</p>';
+    d.brands.forEach(function(b, i){ if (!b.active) return;
+      h += '<div class="card"><b>'+esc(b.name)+'</b><div class="claims">'+E.CLAIMS.map(function(c){ var ix = b.claims.indexOf(c.id); return '<button class="claim'+(ix>=0?' on':'')+'" data-claim="'+i+'|'+c.id+'"'+(q<2?' disabled':'')+'>'+(ix>=0?(ix+1)+". ":"")+esc(c.label)+'</button>'; }).join("")+'</div><div class="row">'+num("brands."+i+".media","Media spend ($)",{dis:q<2})+'</div><p>Ad Judgment: '+E.SEGS.map(function(s){ return s+" "+judge(E.adJudgment(b.claims,s)); }).join(" &nbsp; ")+'</p></div>'; });
+    h += '<p class="note">Real media math '+SRC+': cost = cost per insert × inserts^0.9, so repeat inserts get cheaper. Here you just set a total.</p>';
+  }
+  if (screen === "channel") {
+    h += '<h3>Sales Channel</h3><p>Stores and the web center take one quarter to open, and the lease starts next quarter '+SRC+'. Q1 to Q3: one new store per quarter, max 7 employees per location in Q2 and Q3 '+SRC+'.</p>';
+    h += table(["Location","Region","Setup","Lease/qtr","Status","Open it"], E.CITIES.map(function(c){ var st = g.stores[c.id]; var on = d.openStores.indexOf(c.id)>=0; return [c.name, c.region, money(c.setup), money(c.lease), st?"Open":"Not open", st?"Yes":'<input type="checkbox" data-store="'+c.id+'"'+(on?' checked':'')+'>']; }).concat([["Web Sales Center","Sells globally",money(E.WEB.setup),money(E.WEB.lease), g.web?"Open":"Not open", g.web?"Yes":'<input type="checkbox" data-p="openWeb" data-t="b"'+(d.openWeb?' checked':'')+'>']]));
+    var locs = E.openLocs(g);
+    h += '<h4>Staffing</h4>'+lockNote(2);
+    if (q>=2 && !locs.length) h += '<p>No location is open yet.</p>';
+    if (q>=2) locs.forEach(function(l){ if (!d.staff[l]) d.staff[l] = {sales:0, service:0}; h += '<div class="row"><b class="lbl">'+(l==="WEB"?"Web Sales Center":E.CITIES.filter(function(c){return c.id===l;})[0].name)+'</b>'+num("staff."+l+".sales","Salespeople",{min:0})+(l==="WEB"?"":num("staff."+l+".service","Service reps",{min:0}))+'</div>'; });
+    h += '<p class="note">Max employees per location: '+(E.MAX_REPS[q]||"none")+'. A service rep sells about 30% of a salesperson but covers the "repair and support nearby" need '+SRC+'.</p>';
+  }
+  if (screen === "hr") {
+    h += '<h3>Human Resources</h3>'+lockNote(2)+'<p>Pay above the industry average lifts productivity. A low-paid salesperson might sell 30 bikes, a top-paid one 70 '+SRC+'. Industry averages here are '+EST+'.</p><div class="row">'+num("salesSalary","Sales and service salary per quarter ($)",{dis:q<2})+num("prodWage","Production worker pay per quarter ($)",{dis:q<2})+'</div>';
+    h += '<p>Industry average '+EST+': sales '+money(E.C.salesAvg)+', production '+money(E.C.prodAvg)+'. Your sales productivity '+Math.round(E.salesProd(d.salesSalary)*100)+'%, production productivity '+Math.round(E.prodProd(d.prodWage)*100)+'% (about 70% is typical in Q2 '+SRC+').</p>';
+  }
+  if (screen === "mfg") {
+    h += '<h3>Manufacturing</h3><p>Each 3D printer costs '+money(E.C.printer)+' and makes up to 520 bikes per quarter. Printers bought now work next quarter. Max 3 per quarter through Q3, 7 in Q4 '+SRC+'.</p><div class="row">'+num("buyPrinters","Printers to buy",{min:0})+num("opCap","Operating capacity (% of fixed)",{dis:q<2,min:0,max:100})+num("overtime","Overtime (hours/day, 0 to 4)",{dis:q<2,min:0,max:4})+num("forecast","Demand forecast (bikes)",{dis:q<2,min:0})+'</div>';
+    h += table(["Item","Value"],[["Printers working now",n0(g.printers)],["Fixed capacity",n0(p.fixedCap)+" bikes"],["Operating capacity",n0(p.opUnits)+" bikes ("+p.workers+" workers paid either way)"],["Can make without overtime",n0(p.regularCap)],["Can make with overtime",n0(p.capability)]]);
+    h += '<p class="note">Real formula '+SRC+': fixed capacity × operating % × worker productivity, plus overtime at 2x pay. Above 90% operating capacity you hit diminishing returns. 3D printing builds to order, so there\'s no finished inventory: demand above capability is a stockout, and stockouts cut next quarter\'s demand by half the stockout % '+SRC+'. Workers per printer and overhead '+EST+'.</p>';
+  }
+  if (screen === "research") {
+    h += '<h3>Market Research</h3>'+lockNote(2)+chk("research","Buy the market research bundle this quarter ("+money(E.C.research)+" "+"est)", q<2)+'<p>Guides say buy research every quarter: competitor brands, prices, Brand, Price and Ad Judgments, and sales per salesperson '+SRC+'. Here it unlocks the competitor table on the Results tab.</p>';
+  }
+  if (screen === "finance") {
+    h += '<h3>Finance</h3>'+table(["Funding","Rule"],[["Founder equity "+SRC,"$1.5M in Q1, $500k in Q2, $500k in Q3. 25,000 shares at $100."],["Emergency loan "+SRC,"If cash ends a quarter negative the loan shark covers it, repaid next quarter at 10% to 25%, plus 1 share per $100 lent."],["Bank credit line "+SRC,"From Q4, 1.5x last quarter's equity. Interest here 3%/qtr "+EST+"."],["Venture capital "+SRC,"Q4 business plan pitch for up to $2.5M. Share price here tracks your wealth ratio "+EST+"."],["Bankruptcy "+SRC,"Retained earnings plus common stock below zero."]]);
+    if (q>=4) h += '<div class="row">'+num("vc","VC funding ($, up to 2,500,000)",{min:0})+num("bankDraw","Bank draw ($)",{min:0})+num("bankRepay","Bank repay ($)",{min:0})+num("rd","R&D for new features ($)",{min:0})+'</div><p>Credit line '+money(E.creditLimit(g))+', already drawn '+money(g.bank)+'. VC price per share '+money(E.vcPrice(g))+'. R&D spending pays off in Q5 and Q6 in the real game and counts as Investment in Future.</p>';
+    else h += '<p class="lock">VC, bank and R&D open in Q4.</p>';
+  }
+  if (screen === "acct") {
+    h += '<h3>Pro Forma Cash Flow</h3><p>Like the real game\'s live pro forma: plan spending against your forecast. The game suggests ending with $300k to $500k '+SRC+'.</p>';
+    h += table(["Line","Amount"],[["Starting cash",money(g.cash)],["Founder equity in",money(p.equity)],["VC and bank in",money(p.vc+p.bankDraw)],["Forecast revenue ("+n0(Math.min(d.forecast,p.capability))+" bikes)",money(p.fcRev)],["Forecast materials and overhead",money(-p.fcVarCost)],["Brand design",money(-p.design)],["Ads and media",money(-(p.adCreate+p.media))],["Store and web setup",money(-p.setup)],["Leases",money(-p.lease)],["Sales and service salaries",money(-p.salaries)],["Production workers",money(-p.labor)],["Printers",money(-p.capex)],["Research, R&D, admin",money(-(p.research+p.rd+E.C.admin))],["Loan shark repayment",money(-p.sharkDue)],["Bank repay and interest",money(-(p.bankRepay+p.bankInt))],["<b>Pro forma ending cash</b>",'<b class="'+(p.proForma<0?"neg":"")+'">'+money(p.proForma)+'</b>']]);
+  }
+  if (screen === "submit") {
+    var fc = E.finalCheck(g, d);
+    h += '<h3>Final Check and Submit</h3>';
+    h += fc.fatal.length ? '<div class="bad box"><b>Fatal errors (fix before submit):</b><ul>'+fc.fatal.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></div>' : '<div class="good box">No fatal errors.</div>';
+    if (fc.warn.length) h += '<div class="warn box"><b>Warnings:</b><ul>'+fc.warn.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul></div>';
+    h += '<p><button class="primary" id="submit"'+(fc.fatal.length||g.over?' disabled':'')+'>Submit Q'+q+' and run the quarter</button></p>';
+  }
+  return h;
+}
+function resultsHTML(){
+  if (!g.history.length) return '<p>No quarters played yet. Make your Q1 decisions and submit.</p>';
+  var r = g.history[g.history.length-1], h = '<h3>Q'+r.q+' results</h3><div class="coach"><b>Coach:</b><ul>'+r.coach.map(function(c){return '<li>'+esc(c)+'</li>';}).join("")+'</ul></div>';
+  if (r.brands.length && r.q>=2) h += '<h4>Brands</h4>'+table(["Brand","Price","Demand","Sold","Revenue","BJ R/M/S","PJ R/M/S","AJ R/M/S"], r.brands.map(function(b){ return [esc(b.name), money(b.price), n0(b.demand), n0(b.sold), money(b.revenue), E.SEGS.map(function(s){return judge(b.bj[s]);}).join(" "), E.SEGS.map(function(s){return judge(b.pj[s]);}).join(" "), E.SEGS.map(function(s){return judge(b.aj[s]);}).join(" ")]; }));
+  if (r.locs.length) h += '<h4>Sales by location</h4>'+table(["Location","Salespeople","Service","Demand","Per salesperson"], r.locs.map(function(l){ return [l.name, l.reps, l.service, n0(l.demand), n0(l.perRep)]; }));
+  if (r.q>=2) h += '<h4>Market</h4>'+table(["Item","Value"],[["Your share: Recreation / Mountain / Speed", E.SEGS.map(function(s){return r.share[s].toFixed(1)+"%";}).join(" / ")],["Demand, made, stockouts", n0(r.demand)+", "+n0(r.produced)+", "+n0(r.stockouts)],["Forecast vs demand", n0(r.forecast)+" vs "+n0(r.demand)],["Computer teams' units", r.compShare.map(function(c){return c.name+" "+n0(c.units);}).join(", ")]]);
+  if (r.compInfo) h += '<h4>Market research: competitors</h4>'+table(["Team","Focus","Price","BJ","PJ","AJ","Salespeople"], r.compInfo.map(function(c){ return [c.name,c.seg,money(c.price),judge(c.bj),judge(c.pj),judge(c.aj),c.reps]; }));
+  h += '<div class="two"><div><h4>Income statement</h4>'+table(["Line","Amount"],[["Sales revenue",money(r.revenue)],["Rebates",money(-r.rebates)],["Cost of goods sold ("+money(r.unitCost)+"/bike)",money(-r.cogs)],["<b>Gross profit</b>","<b>"+money(r.gross)+"</b>"]].concat(r.exp.filter(function(e){return e.amount;}).map(function(e){return [e.label, money(-e.amount)];})).concat([["Operating profit",money(r.opProfit)],["Interest",money(-r.interest)],["<b>Net income</b>",'<b class="'+(r.ni<0?"neg":"")+'">'+money(r.ni)+"</b>"]]))+'</div>';
+  h += '<div><h4>Cash and financing</h4>'+table(["Line","Amount"],[["Starting cash",money(r.startCash)],["Founder equity",money(r.equity)],["VC (shares "+n0(r.vcShares)+")",money(r.vc)],["Bank draw / repay",money(r.bankDraw)+" / "+money(-r.bankRepay)],["Printers bought",money(-r.capex)],["Loan shark repaid",money(-r.sharkRepaid)],["Cash before emergency loan",money(r.preCash)],["Emergency loan ("+Math.round(r.rate*100)+"%)",money(r.loan)],["Shares to loan shark",n0(r.sharkShares)],["Founders own",(r.founderPct*100).toFixed(1)+"%"],["<b>Ending cash</b>",'<b class="'+(r.endCash<0?"neg":"")+'">'+money(r.endCash)+"</b>"]])+'</div></div>';
+  h += '<h4>All quarters</h4>'+table(["Q","Net revenue","Net income","Ending cash","Bikes sold","Stockouts","Loan","Total Performance"], g.history.map(function(x){ return ["Q"+x.q, money(x.netRev), money(x.ni), money(x.endCash), n0(x.produced), n0(x.stockouts), money(x.loan), f2(x.score.total)]; }));
+  return h;
+}
+var SC = [["fin","Financial Performance","(Net profit from current operations + Gross profit) / 2 / Total shares. Investments in the future are added back."],["mkt","Market Performance","Avg market share in primary and secondary segment × % of demand served. Good is over 0.5 with 3 firms."],["eff","Marketing Effectiveness","(Avg best Brand Judgment + avg best Ad Judgment in your two segments) / 2 / 100. Good is over 0.8."],["fut","Investment in Future","Cumulative store/web openings, R&D and depreciation / cumulative net revenue × 10 + 1. Good is over 3."],["wealth","Wealth","(Common stock + retained earnings) / common stock. Over 1 means you've added wealth."],["hr","HR Management","(Sales force productivity + production worker productivity) / 2"],["asset","Asset Management","Net revenue / total assets"],["mfg","Manufacturing Productivity","% of operating capacity used − overtime % / 2"],["risk","Financial Risk","(Equity / (equity + debt)) ^ 0.5"]];
+function scoreHTML(){
+  var h = '<h3>Balanced Scorecard</h3><p>The real formula '+SRC+': Total Performance = the product of all nine factors. Any factor at zero or below makes the total 0. Your class scores Q3 to Q6. Formulas below match the real ones; the inputs come from this practice model.</p>';
+  if (!g.history.length) return h + table(["Factor","How it's computed"], SC.map(function(s){return [s[1], s[2]];}));
+  return h + table(["Factor"].concat(g.history.map(function(x){return "Q"+x.q;})).concat(["How it's computed"]), SC.map(function(s){ return [s[1]].concat(g.history.map(function(x){ return f2(x.score[s[0]]); })).concat([s[2]]); }).concat([["<b>Total Performance</b>"].concat(g.history.map(function(x){return "<b>"+f2(x.score.total)+"</b>";})).concat(["Product of the nine"])]));
+}
+var SCN = [
+  ["fresh","Fresh start: Q1","A blank company with $1.5M in the bank.","Practice the full Q1 setup: segments, brand designs, first store and printers."],
+  ["q2ready","Q2 ready","A solid Q1 is done: New York store, 2 printers, one Mountain brand fitted to its segment.","Practice test-market calls: ad claims, staffing, the forecast and operating capacity."],
+  ["q3rescue","Q3 rescue: cash trouble","Q2 overpaid staff and ran the factory flat out. Cash is down to $422k and the Q3 plan barely clears.","Keep this plan and a sales miss brings the loan shark. Cut costs and rebuild the pro forma."],
+  ["q3comeback","Q3 comeback: wrong segment","The team aimed at Speed with a comfort-built bike at $1,450, so Brand Judgment is low and sales are near zero.","Read the judgment scores, then redesign for the segment or switch your segment priorities."],
+  ["q4vc","Q4 VC pitch","Three steady quarters with real results from the engine, about to enter Q4.","Practice the VC ask, the credit line, R&D and expanding once the auditor limits lift."]
+];
+var curScen = "";
+function scenHTML(){
+  var h = '<div class="scen"><h2>Practice scenarios</h2><p class="note">Pick one to jump straight into that moment of the game. Each was generated by playing this sim\'s engine, so the numbers are consistent. Loading one replaces your current game.</p><div class="sgrid">';
+  SCN.forEach(function(s){ h += '<div class="sc'+(curScen===s[0]?' cur':'')+'"><h4>'+s[1]+'</h4><p>'+s[2]+'</p><p>'+s[3]+'</p><button data-scen="'+s[0]+'"'+(curScen===s[0]?' class="primary"':'')+'>'+(curScen===s[0]?'Loaded. Reload it':'Load this scenario')+'</button></div>'; });
+  h += '</div>';
+  if (g.q === 1 && !g.over) h += '<div class="ex"><h4>Example Q1 decisions</h4><p class="note">A practice suggestion to react to, not a guaranteed answer. Your class game may reward a different plan.</p><ul>'+
+    '<li>Goals and Strategy: primary Mountain, secondary Recreation (big potential, solid willingness to pay).</li>'+
+    '<li>Brands: a Rugged bike built to Mountain needs (24 speed, disc brakes, high-grip tires, front suspension) at about $1,299, plus a Comfort bike for Recreation (comfort seat, basket) at about $999.</li>'+
+    '<li>Sales Channel: order the New York store. It\'s the most balanced market. Hold the web center until you see Q2 results.</li>'+
+    '<li>Manufacturing: 2 or 3 printers. Rough Q2 math is 7 salespeople × 50 bikes = 350, divided by about 70% productivity and 85% operating capacity, which comes to about 590 bikes, or 2 printers. A third prepares for Q3.</li>'+
+    '<li>Accounting: this leaves about $1M or more for Q2 hiring, leases, ads and production.</li></ul><button data-example="1">Load these into my Q1 decisions</button></div>';
+  return h + '</div>';
+}
+function render(){
+  $("scen").innerHTML = scenHTML();
+  $("q").textContent = g.over ? (g.bankrupt ? "Bankrupt" : "Game over") : "Q" + g.q;
+  $("cash").textContent = money(g.cash);
+  var last = g.history[g.history.length-1]; $("tp").textContent = last ? f2(last.score.total) : "-";
+  $("own").textContent = E.sharesTotal(g) ? (g.founderShares/E.sharesTotal(g)*100).toFixed(1)+"%" : "100%";
+  $("msg").textContent = msg; msg = "";
+  document.querySelectorAll(".tabs button").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-tab") === tab); });
+  document.querySelectorAll(".pane").forEach(function(p){ p.hidden = p.id !== "pane-"+tab; });
+  if (tab === "dec") {
+    $("nav").innerHTML = SCREENS.map(function(s){ return '<button data-screen="'+s[0]+'" class="'+(s[0]===screen?"on":"")+'">'+s[1]+'</button>'; }).join("");
+    $("screen").innerHTML = g.over ? '<p>The game is over. See Results and Scorecard, or Reset to play again.</p>' : screenHTML();
+    $("pf").textContent = money(E.plan(g,d).proForma);
+  }
+  if (tab === "res") $("pane-res").innerHTML = resultsHTML();
+  if (tab === "score") $("pane-score").innerHTML = scoreHTML();
+}
+document.addEventListener("change", function(e){
+  var t = e.target; if (!t) return;
+  if (t.getAttribute("data-store")) { var id = t.getAttribute("data-store"); d.openStores = d.openStores.filter(function(x){return x!==id;}); if (t.checked) d.openStores.push(id); render(); return; }
+  var p = t.getAttribute("data-p"); if (!p) return;
+  var ty = t.getAttribute("data-t"); var v = ty === "n" ? Math.max(0, parseFloat(t.value)||0) : ty === "b" ? t.checked : t.value;
+  setPath(p, v); render();
+});
+document.addEventListener("click", function(e){
+  var t = e.target.closest ? e.target.closest("button") : null; if (!t) return;
+  if (t.getAttribute("data-tab")) { tab = t.getAttribute("data-tab"); render(); return; }
+  if (t.getAttribute("data-screen")) { screen = t.getAttribute("data-screen"); render(); window.scrollTo(0, $("main").offsetTop - 8); return; }
+  if (t.getAttribute("data-claim")) { var a = t.getAttribute("data-claim").split("|"), b = d.brands[+a[0]], ix = b.claims.indexOf(a[1]); if (ix>=0) b.claims.splice(ix,1); else b.claims.push(a[1]); render(); return; }
+  if (t.getAttribute("data-scen")) { var k = t.getAttribute("data-scen"), s = JSON.parse(JSON.stringify(MP_SCEN[k])); g = s.g; d = s.d; curScen = k; autosave(); tab = "dec"; screen = "goals"; msg = "Scenario loaded: Q" + g.q + ". Start at Goals and Strategy."; render(); return; }
+  if (t.getAttribute("data-example")) { d = E.defaultDec(); d.buyPrinters = 3; msg = "Example Q1 decisions loaded. Review each screen, then submit."; tab = "dec"; screen = "goals"; render(); return; }
+  var id = t.id;
+  if (id === "submit") { if (E.finalCheck(g,d).fatal.length) return; g = E.run(g, d); d.forecast = 0; d.buyPrinters = 0; d.openStores = []; d.openWeb = false; d.vc = 0; d.bankDraw = 0; d.bankRepay = 0; d.rd = 0; autosave(); tab = "res"; screen = "goals"; render(); window.scrollTo(0,0); }
+  if (id === "save") { autosave(); msg = "Saved on this device."; render(); }
+  if (id === "load") { try { var s = JSON.parse(localStorage.getItem(KEY)||"null"); if (s) { g = s.g; d = s.d; msg = "Loaded."; } else msg = "Nothing saved yet."; } catch(err){ msg = "Couldn't load."; } render(); }
+  if (id === "export") { $("code").value = btoa(unescape(encodeURIComponent(JSON.stringify({v:1,g:g,d:d})))); $("code").select(); msg = "Save code is in the box. Copy it and send it to your team."; render(); }
+  if (id === "import") { try { var o = JSON.parse(decodeURIComponent(escape(atob($("code").value.trim())))); g = o.g; d = o.d; autosave(); msg = "Imported."; } catch(err){ msg = "That save code didn't work."; } render(); }
+  if (id === "reset") { if (confirm("Start over from Q1?")) { g = E.newGame(); d = E.defaultDec(); curScen = ""; autosave(); tab = "dec"; screen = "goals"; render(); } }
+});
+function autosave(){ try { localStorage.setItem(KEY, JSON.stringify({g:g, d:d})); } catch(err){} }
+try { var s0 = JSON.parse(localStorage.getItem(KEY)||"null"); if (s0 && s0.g) { g = s0.g; d = s0.d; } } catch(err){}
+window.__mp = { get g(){return g;}, get d(){return d;} };
+render();
+})();
+</script>
+</body></html>
